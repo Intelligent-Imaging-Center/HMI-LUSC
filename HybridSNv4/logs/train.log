@@ -1,0 +1,64 @@
+2024-05-31 11:06:29 INFO     Done reading data
+2024-05-31 11:06:29 INFO     before transpose: Xtrain shape: (442822, 25, 25, 30, 1)
+2024-05-31 11:06:29 INFO     before transpose: Xtest  shape: (49203, 25, 25, 30, 1)
+2024-05-31 11:06:29 INFO     after transpose: Xtrain shape: (442822, 1, 30, 25, 25)
+2024-05-31 11:06:29 INFO     after transpose: Xtest  shape: (49203, 1, 30, 25, 25)
+2024-05-31 11:06:29 INFO     Dataset already in data loader
+2024-05-31 11:06:29 INFO     Start training hybrid net with BN and attention
+2024-05-31 11:06:40 INFO     
+
+Let's use 4 GPUs!
+
+
+2024-05-31 11:08:48 INFO     [Epoch: 1]   [loss avg: 1024.8487]   [current loss: 0.4964]  [current acc: 0.9173]
+2024-05-31 11:10:37 INFO     [Epoch: 2]   [loss avg: 883.1295]   [current loss: 0.4688]  [current acc: 0.9279]
+2024-05-31 11:12:27 INFO     [Epoch: 3]   [loss avg: 801.9027]   [current loss: 0.3826]  [current acc: 0.9349]
+2024-05-31 11:14:17 INFO     [Epoch: 4]   [loss avg: 745.9071]   [current loss: 0.3600]  [current acc: 0.9358]
+2024-05-31 11:16:06 INFO     [Epoch: 5]   [loss avg: 703.7420]   [current loss: 0.3214]  [current acc: 0.9429]
+2024-05-31 11:17:56 INFO     [Epoch: 6]   [loss avg: 670.3107]   [current loss: 0.3437]  [current acc: 0.9441]
+2024-05-31 11:19:46 INFO     [Epoch: 7]   [loss avg: 642.8015]   [current loss: 0.2339]  [current acc: 0.9461]
+2024-05-31 11:21:35 INFO     [Epoch: 8]   [loss avg: 619.4149]   [current loss: 0.3276]  [current acc: 0.9459]
+2024-05-31 11:23:25 INFO     [Epoch: 9]   [loss avg: 599.0396]   [current loss: 0.3676]  [current acc: 0.9468]
+2024-05-31 11:25:15 INFO     [Epoch: 10]   [loss avg: 581.0221]   [current loss: 0.2034]  [current acc: 0.9504]
+2024-05-31 11:27:05 INFO     [Epoch: 11]   [loss avg: 564.7486]   [current loss: 0.2215]  [current acc: 0.9508]
+2024-05-31 11:28:54 INFO     [Epoch: 12]   [loss avg: 549.8702]   [current loss: 0.2008]  [current acc: 0.9484]
+2024-05-31 11:30:44 INFO     [Epoch: 13]   [loss avg: 536.1511]   [current loss: 0.2826]  [current acc: 0.9512]
+2024-05-31 11:32:34 INFO     [Epoch: 14]   [loss avg: 523.3266]   [current loss: 0.1856]  [current acc: 0.9481]
+2024-05-31 11:34:24 INFO     [Epoch: 15]   [loss avg: 511.2633]   [current loss: 0.1796]  [current acc: 0.9519]
+2024-05-31 11:36:13 INFO     [Epoch: 16]   [loss avg: 499.7665]   [current loss: 0.1636]  [current acc: 0.9479]
+2024-05-31 11:38:03 INFO     [Epoch: 17]   [loss avg: 488.8212]   [current loss: 0.2510]  [current acc: 0.9518]
+2024-05-31 11:39:53 INFO     [Epoch: 18]   [loss avg: 478.1830]   [current loss: 0.1519]  [current acc: 0.9507]
+2024-05-31 11:41:42 INFO     [Epoch: 19]   [loss avg: 467.9651]   [current loss: 0.1483]  [current acc: 0.9513]
+2024-05-31 11:43:32 INFO     [Epoch: 20]   [loss avg: 457.8896]   [current loss: 0.1497]  [current acc: 0.9511]
+2024-05-31 11:45:22 INFO     [Epoch: 21]   [loss avg: 448.1645]   [current loss: 0.1532]  [current acc: 0.9513]
+2024-05-31 11:47:12 INFO     [Epoch: 22]   [loss avg: 438.5272]   [current loss: 0.1332]  [current acc: 0.9500]
+2024-05-31 11:49:01 INFO     [Epoch: 23]   [loss avg: 429.1403]   [current loss: 0.0741]  [current acc: 0.9507]
+2024-05-31 11:50:51 INFO     [Epoch: 24]   [loss avg: 419.8975]   [current loss: 0.1393]  [current acc: 0.9500]
+2024-05-31 11:52:41 INFO     [Epoch: 25]   [loss avg: 410.8991]   [current loss: 0.1146]  [current acc: 0.9489]
+2024-05-31 11:54:30 INFO     [Epoch: 26]   [loss avg: 402.0965]   [current loss: 0.0798]  [current acc: 0.9487]
+2024-05-31 11:56:20 INFO     [Epoch: 27]   [loss avg: 393.4929]   [current loss: 0.0771]  [current acc: 0.9497]
+2024-05-31 11:58:10 INFO     [Epoch: 28]   [loss avg: 385.1497]   [current loss: 0.0950]  [current acc: 0.9498]
+2024-05-31 12:00:00 INFO     [Epoch: 29]   [loss avg: 377.0360]   [current loss: 0.1257]  [current acc: 0.9492]
+2024-05-31 12:01:50 INFO     [Epoch: 30]   [loss avg: 369.1331]   [current loss: 0.1026]  [current acc: 0.9463]
+2024-05-31 12:03:40 INFO     [Epoch: 31]   [loss avg: 361.5104]   [current loss: 0.0957]  [current acc: 0.9480]
+2024-05-31 12:05:30 INFO     [Epoch: 32]   [loss avg: 354.1286]   [current loss: 0.0680]  [current acc: 0.9471]
+2024-05-31 12:07:19 INFO     [Epoch: 33]   [loss avg: 346.9323]   [current loss: 0.0908]  [current acc: 0.9416]
+2024-05-31 12:09:09 INFO     [Epoch: 34]   [loss avg: 340.0561]   [current loss: 0.0590]  [current acc: 0.9473]
+2024-05-31 12:10:59 INFO     [Epoch: 35]   [loss avg: 333.3675]   [current loss: 0.0777]  [current acc: 0.9472]
+2024-05-31 12:12:48 INFO     [Epoch: 36]   [loss avg: 326.9201]   [current loss: 0.0369]  [current acc: 0.9460]
+2024-05-31 12:14:38 INFO     [Epoch: 37]   [loss avg: 320.7394]   [current loss: 0.0489]  [current acc: 0.9475]
+2024-05-31 12:16:29 INFO     [Epoch: 38]   [loss avg: 314.7021]   [current loss: 0.0665]  [current acc: 0.9469]
+2024-05-31 12:18:20 INFO     [Epoch: 39]   [loss avg: 308.9416]   [current loss: 0.0705]  [current acc: 0.9474]
+2024-05-31 12:20:10 INFO     [Epoch: 40]   [loss avg: 303.3428]   [current loss: 0.0268]  [current acc: 0.9462]
+2024-05-31 12:21:59 INFO     [Epoch: 41]   [loss avg: 297.9490]   [current loss: 0.0180]  [current acc: 0.9462]
+2024-05-31 12:23:49 INFO     [Epoch: 42]   [loss avg: 292.7773]   [current loss: 0.0310]  [current acc: 0.9465]
+2024-05-31 12:25:39 INFO     [Epoch: 43]   [loss avg: 287.7595]   [current loss: 0.0865]  [current acc: 0.9464]
+2024-05-31 12:27:28 INFO     [Epoch: 44]   [loss avg: 282.8857]   [current loss: 0.0380]  [current acc: 0.9458]
+2024-05-31 12:29:18 INFO     [Epoch: 45]   [loss avg: 278.1789]   [current loss: 0.0305]  [current acc: 0.9446]
+2024-05-31 12:31:08 INFO     [Epoch: 46]   [loss avg: 273.6385]   [current loss: 0.0371]  [current acc: 0.9456]
+2024-05-31 12:32:58 INFO     [Epoch: 47]   [loss avg: 269.2167]   [current loss: 0.0305]  [current acc: 0.9453]
+2024-05-31 12:34:48 INFO     [Epoch: 48]   [loss avg: 264.9934]   [current loss: 0.1109]  [current acc: 0.9454]
+2024-05-31 12:36:37 INFO     [Epoch: 49]   [loss avg: 260.8726]   [current loss: 0.0261]  [current acc: 0.9448]
+2024-05-31 12:38:27 INFO     [Epoch: 50]   [loss avg: 256.8827]   [current loss: 0.0334]  [current acc: 0.9474]
+2024-05-31 12:38:27 INFO     Finished Training
+2024-05-31 12:38:27 INFO     Best Acc:0.9519

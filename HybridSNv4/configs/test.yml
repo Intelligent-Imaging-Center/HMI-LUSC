@@ -1,0 +1,32 @@
+parameter_dir: ../../Training7/Result/Params/lin1-10-train
+input_dir: ../../Training7/DataSource/lin1-10/x-sg-snv/data
+label_dir: ../../Training7/DataSource/lin1-10/x-sg-snv/label
+prediction_dir: ../../Training7/Result/GeneratedProb/lin1-10-train
+pca_components: 30
+patch_size: 25
+batch_size: 2048
+SVM_patch_size: 5
+test_num: 500
+test_models:
+  Hybrid_BN_A:
+    param: hybrid_BN_A.pth
+    net: 1
+    test: 0
+  CNN2D:
+    param: cnn_2d.pth
+    net: 1
+    test: 1
+  CNN3D:
+    param: cnn_3d.pth
+    net: 1
+    test: 1
+  RF:
+    param: RF.joblib
+    net: 0
+    test: 0
+  RBF_SVM:
+    param: RBF_SVM.joblib
+    net: 0
+    test: 0
+
+

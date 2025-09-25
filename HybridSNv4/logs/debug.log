@@ -1,0 +1,7 @@
+2024-01-12 10:50:35 INFO     correctly load hybrid BN
+2024-01-12 10:50:39 INFO     Prediction has tn 7710 fp 44 fn 18 tp 18443
+2024-01-12 10:51:11 INFO     Prediction has tn 69449 fp 332 fn 106 tp 166042
+2024-01-12 10:51:47 INFO     Prediction has tn 77159 fp 376 fn 124 tp 184485
+2024-01-12 10:51:51 INFO     Prediction has tn 7710 fp 44 fn 18 tp 18443
+2024-01-12 10:52:25 INFO     Prediction has tn 69449 fp 332 fn 106 tp 166042
+2024-01-12 10:53:04 INFO     Prediction has tn 77159 fp 376 fn 124 tp 184485

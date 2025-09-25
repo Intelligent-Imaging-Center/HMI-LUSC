@@ -1,0 +1,9 @@
+input_dir: "../data"
+label_dir: "../label"
+prediction_dir: "../pred_label"
+save_dir: "../Comparison"
+test_num: 252
+
+
+
+

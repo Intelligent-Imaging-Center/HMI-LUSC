@@ -1,0 +1,373 @@
+2024-05-31 12:38:35 INFO     correctly load Hybrid BN A
+2024-05-31 12:38:35 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin1-1.hdr
+2024-05-31 12:38:35 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin1-1.png
+2024-05-31 12:39:23 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 12:39:24 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 12:39:24 INFO     Testing Hybrid_BN_A
+2024-05-31 12:39:24 INFO     margin is 12
+2024-05-31 13:02:39 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin1-2.hdr
+2024-05-31 13:02:39 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin1-2.png
+2024-05-31 13:03:22 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 13:03:23 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 13:03:23 INFO     Testing Hybrid_BN_A
+2024-05-31 13:03:23 INFO     margin is 12
+2024-05-31 13:26:34 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin1-3.hdr
+2024-05-31 13:26:34 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin1-3.png
+2024-05-31 13:27:19 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 13:27:20 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 13:27:20 INFO     Testing Hybrid_BN_A
+2024-05-31 13:27:20 INFO     margin is 12
+2024-05-31 13:50:39 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin1-4.hdr
+2024-05-31 13:50:39 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin1-4.png
+2024-05-31 13:51:25 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 13:51:26 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 13:51:26 INFO     Testing Hybrid_BN_A
+2024-05-31 13:51:26 INFO     margin is 12
+2024-05-31 14:14:07 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin1-5.hdr
+2024-05-31 14:14:07 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin1-5.png
+2024-05-31 14:14:54 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 14:14:55 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 14:14:55 INFO     Testing Hybrid_BN_A
+2024-05-31 14:14:55 INFO     margin is 12
+2024-05-31 14:38:16 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin10-1.hdr
+2024-05-31 14:38:16 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin10-1.png
+2024-05-31 14:39:03 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 14:39:04 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 14:39:04 INFO     Testing Hybrid_BN_A
+2024-05-31 14:39:04 INFO     margin is 12
+2024-05-31 15:02:25 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin10-2.hdr
+2024-05-31 15:02:25 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin10-2.png
+2024-05-31 15:03:14 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 15:03:15 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 15:03:15 INFO     Testing Hybrid_BN_A
+2024-05-31 15:03:15 INFO     margin is 12
+2024-05-31 15:26:07 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin10-3.hdr
+2024-05-31 15:26:07 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin10-3.png
+2024-05-31 15:26:54 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 15:26:55 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 15:26:55 INFO     Testing Hybrid_BN_A
+2024-05-31 15:26:55 INFO     margin is 12
+2024-05-31 15:50:14 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin2-1.hdr
+2024-05-31 15:50:14 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin2-1.png
+2024-05-31 15:51:00 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 15:51:00 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 15:51:00 INFO     Testing Hybrid_BN_A
+2024-05-31 15:51:00 INFO     margin is 12
+2024-05-31 16:14:16 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin2-2.hdr
+2024-05-31 16:14:16 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin2-2.png
+2024-05-31 16:15:04 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 16:15:05 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 16:15:05 INFO     Testing Hybrid_BN_A
+2024-05-31 16:15:05 INFO     margin is 12
+2024-05-31 16:38:12 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin2-3.hdr
+2024-05-31 16:38:12 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin2-3.png
+2024-05-31 16:39:00 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 16:39:00 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 16:39:00 INFO     Testing Hybrid_BN_A
+2024-05-31 16:39:00 INFO     margin is 12
+2024-05-31 17:02:21 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-1.hdr
+2024-05-31 17:02:21 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-1.png
+2024-05-31 17:03:09 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 17:03:10 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 17:03:10 INFO     Testing Hybrid_BN_A
+2024-05-31 17:03:10 INFO     margin is 12
+2024-05-31 17:26:15 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-10.hdr
+2024-05-31 17:26:15 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-10.png
+2024-05-31 17:27:01 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 17:27:02 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 17:27:02 INFO     Testing Hybrid_BN_A
+2024-05-31 17:27:02 INFO     margin is 12
+2024-05-31 17:50:12 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-11.hdr
+2024-05-31 17:50:12 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-11.png
+2024-05-31 17:50:57 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 17:50:58 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 17:50:58 INFO     Testing Hybrid_BN_A
+2024-05-31 17:50:58 INFO     margin is 12
+2024-05-31 18:13:49 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-12.hdr
+2024-05-31 18:13:49 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-12.png
+2024-05-31 18:14:36 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 18:14:37 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 18:14:37 INFO     Testing Hybrid_BN_A
+2024-05-31 18:14:37 INFO     margin is 12
+2024-05-31 18:37:51 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-13.hdr
+2024-05-31 18:37:51 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-13.png
+2024-05-31 18:38:36 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 18:38:37 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 18:38:37 INFO     Testing Hybrid_BN_A
+2024-05-31 18:38:37 INFO     margin is 12
+2024-05-31 19:01:22 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-14.hdr
+2024-05-31 19:01:22 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-14.png
+2024-05-31 19:02:10 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 19:02:11 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 19:02:11 INFO     Testing Hybrid_BN_A
+2024-05-31 19:02:11 INFO     margin is 12
+2024-05-31 19:25:28 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-15.hdr
+2024-05-31 19:25:28 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-15.png
+2024-05-31 19:26:17 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 19:26:18 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 19:26:18 INFO     Testing Hybrid_BN_A
+2024-05-31 19:26:18 INFO     margin is 12
+2024-05-31 19:49:07 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-16.hdr
+2024-05-31 19:49:07 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-16.png
+2024-05-31 19:49:54 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 19:49:54 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 19:49:54 INFO     Testing Hybrid_BN_A
+2024-05-31 19:49:54 INFO     margin is 12
+2024-05-31 20:13:05 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-17.hdr
+2024-05-31 20:13:05 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-17.png
+2024-05-31 20:13:54 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 20:13:55 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 20:13:55 INFO     Testing Hybrid_BN_A
+2024-05-31 20:13:55 INFO     margin is 12
+2024-05-31 20:36:31 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-2.hdr
+2024-05-31 20:36:31 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-2.png
+2024-05-31 20:37:18 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 20:37:19 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 20:37:19 INFO     Testing Hybrid_BN_A
+2024-05-31 20:37:19 INFO     margin is 12
+2024-05-31 21:00:35 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-20.hdr
+2024-05-31 21:00:35 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-20.png
+2024-05-31 21:01:23 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 21:01:24 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 21:01:24 INFO     Testing Hybrid_BN_A
+2024-05-31 21:01:24 INFO     margin is 12
+2024-05-31 21:24:34 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-3.hdr
+2024-05-31 21:24:34 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-3.png
+2024-05-31 21:25:23 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 21:25:24 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 21:25:24 INFO     Testing Hybrid_BN_A
+2024-05-31 21:25:24 INFO     margin is 12
+2024-05-31 21:48:33 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-4.hdr
+2024-05-31 21:48:33 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-4.png
+2024-05-31 21:49:22 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 21:49:23 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 21:49:23 INFO     Testing Hybrid_BN_A
+2024-05-31 21:49:23 INFO     margin is 12
+2024-05-31 22:11:57 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin3-8.hdr
+2024-05-31 22:11:57 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin3-8.png
+2024-05-31 22:12:45 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 22:12:45 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 22:12:45 INFO     Testing Hybrid_BN_A
+2024-05-31 22:12:45 INFO     margin is 12
+2024-05-31 22:36:03 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin4-1.hdr
+2024-05-31 22:36:03 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin4-1.png
+2024-05-31 22:36:50 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 22:36:51 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 22:36:51 INFO     Testing Hybrid_BN_A
+2024-05-31 22:36:51 INFO     margin is 12
+2024-05-31 22:59:49 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin4-2.hdr
+2024-05-31 22:59:49 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin4-2.png
+2024-05-31 23:00:36 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 23:00:37 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 23:00:37 INFO     Testing Hybrid_BN_A
+2024-05-31 23:00:37 INFO     margin is 12
+2024-05-31 23:23:16 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin4-3.hdr
+2024-05-31 23:23:16 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin4-3.png
+2024-05-31 23:24:03 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 23:24:04 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 23:24:04 INFO     Testing Hybrid_BN_A
+2024-05-31 23:24:04 INFO     margin is 12
+2024-05-31 23:47:10 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-1.hdr
+2024-05-31 23:47:10 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-1.png
+2024-05-31 23:48:00 INFO     padded data has shape (2088, 3112, 30)
+2024-05-31 23:48:01 INFO     svm padded data has shape (2068, 3092, 30)
+2024-05-31 23:48:01 INFO     Testing Hybrid_BN_A
+2024-05-31 23:48:01 INFO     margin is 12
+2024-06-01 00:11:20 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-10.hdr
+2024-06-01 00:11:20 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-10.png
+2024-06-01 00:12:06 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 00:12:07 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 00:12:07 INFO     Testing Hybrid_BN_A
+2024-06-01 00:12:07 INFO     margin is 12
+2024-06-01 00:34:36 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-11.hdr
+2024-06-01 00:34:36 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-11.png
+2024-06-01 00:35:25 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 00:35:26 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 00:35:26 INFO     Testing Hybrid_BN_A
+2024-06-01 00:35:26 INFO     margin is 12
+2024-06-01 01:00:17 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-12.hdr
+2024-06-01 01:00:17 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-12.png
+2024-06-01 01:01:04 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 01:01:05 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 01:01:05 INFO     Testing Hybrid_BN_A
+2024-06-01 01:01:05 INFO     margin is 12
+2024-06-01 01:25:12 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-13.hdr
+2024-06-01 01:25:12 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-13.png
+2024-06-01 01:26:00 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 01:26:01 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 01:26:01 INFO     Testing Hybrid_BN_A
+2024-06-01 01:26:01 INFO     margin is 12
+2024-06-01 01:50:23 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-14.hdr
+2024-06-01 01:50:23 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-14.png
+2024-06-01 01:51:13 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 01:51:14 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 01:51:14 INFO     Testing Hybrid_BN_A
+2024-06-01 01:51:14 INFO     margin is 12
+2024-06-01 02:15:23 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-15.hdr
+2024-06-01 02:15:23 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-15.png
+2024-06-01 02:16:14 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 02:16:15 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 02:16:15 INFO     Testing Hybrid_BN_A
+2024-06-01 02:16:15 INFO     margin is 12
+2024-06-01 02:39:13 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-16.hdr
+2024-06-01 02:39:13 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-16.png
+2024-06-01 02:40:01 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 02:40:01 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 02:40:01 INFO     Testing Hybrid_BN_A
+2024-06-01 02:40:01 INFO     margin is 12
+2024-06-01 03:04:33 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-4.hdr
+2024-06-01 03:04:33 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-4.png
+2024-06-01 03:05:21 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 03:05:21 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 03:05:21 INFO     Testing Hybrid_BN_A
+2024-06-01 03:05:21 INFO     margin is 12
+2024-06-01 03:29:38 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-6.hdr
+2024-06-01 03:29:38 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-6.png
+2024-06-01 03:30:28 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 03:30:29 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 03:30:29 INFO     Testing Hybrid_BN_A
+2024-06-01 03:30:29 INFO     margin is 12
+2024-06-01 03:54:19 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-7.hdr
+2024-06-01 03:54:19 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-7.png
+2024-06-01 03:55:07 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 03:55:08 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 03:55:08 INFO     Testing Hybrid_BN_A
+2024-06-01 03:55:08 INFO     margin is 12
+2024-06-01 04:19:14 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-8.hdr
+2024-06-01 04:19:14 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-8.png
+2024-06-01 04:20:07 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 04:20:08 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 04:20:08 INFO     Testing Hybrid_BN_A
+2024-06-01 04:20:08 INFO     margin is 12
+2024-06-01 04:42:53 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin5-9.hdr
+2024-06-01 04:42:53 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin5-9.png
+2024-06-01 04:43:40 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 04:43:41 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 04:43:41 INFO     Testing Hybrid_BN_A
+2024-06-01 04:43:41 INFO     margin is 12
+2024-06-01 05:08:02 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin6-1.hdr
+2024-06-01 05:08:02 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin6-1.png
+2024-06-01 05:08:54 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 05:08:55 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 05:08:55 INFO     Testing Hybrid_BN_A
+2024-06-01 05:08:55 INFO     margin is 12
+2024-06-01 05:31:54 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin6-2.hdr
+2024-06-01 05:31:54 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin6-2.png
+2024-06-01 05:32:37 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 05:32:38 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 05:32:38 INFO     Testing Hybrid_BN_A
+2024-06-01 05:32:38 INFO     margin is 12
+2024-06-01 05:55:13 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin6-3.hdr
+2024-06-01 05:55:13 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin6-3.png
+2024-06-01 05:56:03 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 05:56:04 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 05:56:04 INFO     Testing Hybrid_BN_A
+2024-06-01 05:56:04 INFO     margin is 12
+2024-06-01 06:19:23 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin6-4.hdr
+2024-06-01 06:19:23 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin6-4.png
+2024-06-01 06:20:16 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 06:20:17 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 06:20:17 INFO     Testing Hybrid_BN_A
+2024-06-01 06:20:17 INFO     margin is 12
+2024-06-01 06:42:47 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin6-5.hdr
+2024-06-01 06:42:47 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin6-5.png
+2024-06-01 06:43:34 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 06:43:35 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 06:43:35 INFO     Testing Hybrid_BN_A
+2024-06-01 06:43:35 INFO     margin is 12
+2024-06-01 07:06:50 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin6-6.hdr
+2024-06-01 07:06:50 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin6-6.png
+2024-06-01 07:07:37 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 07:07:38 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 07:07:38 INFO     Testing Hybrid_BN_A
+2024-06-01 07:07:38 INFO     margin is 12
+2024-06-01 07:30:30 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin6-7.hdr
+2024-06-01 07:30:30 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin6-7.png
+2024-06-01 07:31:16 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 07:31:17 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 07:31:17 INFO     Testing Hybrid_BN_A
+2024-06-01 07:31:17 INFO     margin is 12
+2024-06-01 07:53:50 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin6-8.hdr
+2024-06-01 07:53:50 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin6-8.png
+2024-06-01 07:54:38 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 07:54:39 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 07:54:39 INFO     Testing Hybrid_BN_A
+2024-06-01 07:54:39 INFO     margin is 12
+2024-06-01 08:17:43 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin7-1.hdr
+2024-06-01 08:17:43 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin7-1.png
+2024-06-01 08:18:29 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 08:18:30 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 08:18:30 INFO     Testing Hybrid_BN_A
+2024-06-01 08:18:30 INFO     margin is 12
+2024-06-01 08:41:12 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin7-2.hdr
+2024-06-01 08:41:12 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin7-2.png
+2024-06-01 08:42:00 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 08:42:01 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 08:42:01 INFO     Testing Hybrid_BN_A
+2024-06-01 08:42:01 INFO     margin is 12
+2024-06-01 09:04:35 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin7-3.hdr
+2024-06-01 09:04:35 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin7-3.png
+2024-06-01 09:05:24 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 09:05:25 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 09:05:25 INFO     Testing Hybrid_BN_A
+2024-06-01 09:05:25 INFO     margin is 12
+2024-06-01 09:28:08 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin7-4.hdr
+2024-06-01 09:28:08 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin7-4.png
+2024-06-01 09:28:56 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 09:28:57 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 09:28:57 INFO     Testing Hybrid_BN_A
+2024-06-01 09:28:57 INFO     margin is 12
+2024-06-01 09:51:57 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin7-5.hdr
+2024-06-01 09:51:57 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin7-5.png
+2024-06-01 09:52:46 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 09:52:47 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 09:52:47 INFO     Testing Hybrid_BN_A
+2024-06-01 09:52:47 INFO     margin is 12
+2024-06-01 10:17:46 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin7-6.hdr
+2024-06-01 10:17:46 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin7-6.png
+2024-06-01 10:18:36 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 10:18:37 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 10:18:37 INFO     Testing Hybrid_BN_A
+2024-06-01 10:18:37 INFO     margin is 12
+2024-06-01 10:41:40 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin8-1.hdr
+2024-06-01 10:41:40 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin8-1.png
+2024-06-01 10:42:29 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 10:42:30 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 10:42:30 INFO     Testing Hybrid_BN_A
+2024-06-01 10:42:30 INFO     margin is 12
+2024-06-01 11:05:07 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin8-2.hdr
+2024-06-01 11:05:07 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin8-2.png
+2024-06-01 11:05:59 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 11:06:00 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 11:06:00 INFO     Testing Hybrid_BN_A
+2024-06-01 11:06:00 INFO     margin is 12
+2024-06-01 11:29:15 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin8-3.hdr
+2024-06-01 11:29:15 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin8-3.png
+2024-06-01 11:30:01 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 11:30:02 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 11:30:02 INFO     Testing Hybrid_BN_A
+2024-06-01 11:30:02 INFO     margin is 12
+2024-06-01 11:52:37 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin9-1.hdr
+2024-06-01 11:52:37 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin9-1.png
+2024-06-01 11:53:23 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 11:53:24 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 11:53:24 INFO     Testing Hybrid_BN_A
+2024-06-01 11:53:24 INFO     margin is 12
+2024-06-01 12:16:29 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin9-2.hdr
+2024-06-01 12:16:29 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin9-2.png
+2024-06-01 12:17:19 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 12:17:20 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 12:17:20 INFO     Testing Hybrid_BN_A
+2024-06-01 12:17:20 INFO     margin is 12
+2024-06-01 12:40:02 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin9-3.hdr
+2024-06-01 12:40:02 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin9-3.png
+2024-06-01 12:40:48 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 12:40:49 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 12:40:49 INFO     Testing Hybrid_BN_A
+2024-06-01 12:40:49 INFO     margin is 12
+2024-06-01 13:03:45 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/data/lin9-4.hdr
+2024-06-01 13:03:45 INFO     Now processing image ../../Training7/DataSource/lin1-10/x-sg-snv/label/lin9-4.png
+2024-06-01 13:04:31 INFO     padded data has shape (2088, 3112, 30)
+2024-06-01 13:04:32 INFO     svm padded data has shape (2068, 3092, 30)
+2024-06-01 13:04:32 INFO     Testing Hybrid_BN_A
+2024-06-01 13:04:32 INFO     margin is 12

@@ -1,0 +1,16 @@
+2024-05-31 10:57:48 INFO     X shape before (492025, 25, 25, 30)
+2024-05-31 10:57:48 INFO     X shape after (492025, 25, 25, 30)
+2024-05-31 10:57:48 INFO     Y shape before (492025,)
+2024-05-31 10:57:48 INFO     Y shape after (492025,)
+2024-05-31 11:01:01 INFO     Train size 442822
+2024-05-31 11:01:01 INFO     Test size 49203
+2024-05-31 11:01:01 INFO     Test contain 0 20000
+2024-05-31 11:01:01 INFO     Test contain 1 14203
+2024-05-31 11:01:01 INFO     Test contain 2 5000
+2024-05-31 11:01:01 INFO     Test contain 3 10000
+2024-05-31 11:01:01 INFO     Train contain 0 180000
+2024-05-31 11:01:01 INFO     Train contain 1 127822
+2024-05-31 11:01:01 INFO     Train contain 2 45000
+2024-05-31 11:01:01 INFO     Train contain 3 90000
+2024-05-31 11:01:01 INFO     Save to ../../Training7/Result/ProcessedData/lin1-10-train
+2024-05-31 11:04:45 INFO     Data saved
