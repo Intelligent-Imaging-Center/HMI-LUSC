@@ -29,3 +29,5 @@ To train your own models, adjust files in /HybridV4/configs and run /HybridV4/pr
 
 Once the test.py finishes, the probability npy files are generated and we will use /HybridV4/postprocess.py and postprocess_direct.py to obtain the full prediction labels. The main difference between two files is that postprocess_direct.py will predict each pixel by its highest probability type, where postprocess.py would additionally consider adjacent prediction types and use a voting strategy to achieve instance segmentation.
 
+# Contact 
+If there are other things unclear or code could be not run, please raise Issues or contact 605515416@qq.com. We will simplify and update codes in future.
