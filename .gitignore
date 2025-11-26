@@ -1,0 +1,10 @@
+dataset/*
+deprecated_tools/*
+Experiment1/*
+*.pyc
+*.log
+__pycache__/
+processed_dataset/*
+new_tools/*
+postprocess/*
+preprocess_data/*

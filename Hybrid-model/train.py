@@ -111,12 +111,6 @@ if (configs['train_models']['RF'] or configs['train_models']['RBF_SVM']):
 
 # Random Forest
 if(configs['train_models']['RF']):
-    # del C_RF_X_train
-    # del C_y_train
-    # import gc 
-    # torch.cuda.empty_cache()
-    # gc.collect()
-
     n_estimators = configs['params']['RF']['n_estimators']
     max_depth = configs['params']['RF']['max_depth']
     # 查看是否适用GPU版本 cupy与cuml
@@ -127,17 +121,6 @@ if(configs['train_models']['RF']):
         # from cuml.dask.ensemble import RandomForestClassifier
         from cuml.ensemble import RandomForestClassifier
         import cupy as cp
-        # from dask_cuda import LocalCUDACluster
-        # cluster = LocalCUDACluster(protocol = "ucx", enable_tcp_over_ucx=True,enable_nvlink=True, enable_infiniband=False)
-        # from dask.distributed import Client, wait
-        # client = Client(cluster)
-        # RF_X_train_dask = dask_cudf.from_cudf(RF_X_train, npartitions=4)
-        # y_train_dask = dask_cudf.from_cudf(y_train, npartitions=4)
-        # model = RandomForestClassifier(n_estimators=n_estimators, max_depth=10, random_state=42)  # 可根据需要调整参数
-        # model.fit(RF_X_train, y_train)
-        # model.fit(RF_X_train_dask, y_train_dask)
-        # wait(model.rfs)
-        # model = RandomForestClassifier(n_estimators=n_estimators, max_depth=10, random_state=42)
         model = RandomForestClassifier()  # 可根据需要调整参数
         model.fit(RF_X_train.astype(np.float32), y_train)
     else:
