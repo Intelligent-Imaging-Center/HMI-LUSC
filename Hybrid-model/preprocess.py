@@ -1,7 +1,7 @@
 from utils import *
 import yaml
 import logging
-
+import tqdm
 # ------------------------------------------Logging Function-----------------------------------------
 if not(os.path.exists("logs")):
     os.mkdir("logs")
@@ -16,40 +16,40 @@ with open('./configs/preprocess.yml', 'r') as stream:
     configs = yaml.safe_load(stream)
 
 # ------------------------------------------Read Configuration----------------------------------------
-# X文件夹
+# Data folder
 data_dir = configs["data"]
-# Y文件夹
+# Label folder
 label_dir = configs["label"]
-# 输出文件夹，保存(patch, label)对
+# Output folder to store (patch, label) pair
 output_dir = configs["output"]
-# 用于测试样本的比例
+# Ratio of test set size to whole dataset
 test_ratio = configs["test_ratio"]
-# 每个像素周围提取 patch 的尺寸, 必须是奇数
+# Size of patches around one pixel and must be an ood number
 patch_size = configs["patch_size"]
-# 使用 PCA 降维，得到主成分的数量，需要大于15
+# PCA component size and must be greater than 15 for model constraints
 pca_components = configs["pca_components"]
-# patch步长
+# DEPRECATED, originally used for patch stride, now use random sampling to balance class types, default is each class 2000 samples if exists.
+# If you want to modify the number, please go to utils.py -> generateIndexPair function to adjust each_type_num variable
 patch_stride = configs["patch_stride"]
 
 # -------------------------------------------Read Data and Label-----------------------------------------
-# !!! 考虑去噪和SG平滑
 
 data_files = generate_file_list(data_dir, 'hdr')
-label_files = generate_file_list(label_dir, "tif")
+label_files = generate_file_list(label_dir, "npy")
 print("Total files available " + str(len(data_files)))
 print(len(label_files))
 assert len(data_files) == len(label_files)
-for i in range(0,len(data_files)):
+for i in tqdm.tqdm(range(0,len(data_files))):
     print("Processing file "+ data_files[i])
     data = read_process_hdr_image(data_files[i], pca_components)
     print("Processing file "+ label_files[i])
-    label = read_process_tif_img(label_files[i])
+    label = np.load(label_files[i]).astype(np.uint8)
     h = label.shape[0]
     w = label.shape[1]
     print("Label has unique value " ,np.unique(label))
     IndexForImage = generateIndexPair(label.reshape(label.shape[0],-1), patch_stride, h,w)
     print("Done generating index")
-    print("Index shaep ",IndexForImage.shape )
+    print("Index shape ",IndexForImage.shape )
     singleX = getPatchesXFromImage(data,IndexForImage[:,0],IndexForImage[:,1] , patch_size)
     singleY = getPatchesYFromImage(label, IndexForImage[:,0],IndexForImage[:,1])
     if i == 0:

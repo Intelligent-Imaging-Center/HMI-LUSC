@@ -1,6 +1,6 @@
-input: ../../Training7/Result/ProcessedData/lin1-10-train
-parameter_dir: ../../Training7/Result/Params/lin1-10-train
-cupy: 1
+input: ../Experiment1/network_input
+parameter_dir: ../Experiment1/network_parameters
+cupy: 0
 params:
   Hybrid:
     lr: 0.00005
@@ -13,9 +13,9 @@ params:
     n_estimators: 50
     max_depth: 10
 train_models:
-  Hybrid_BN_A: 0
+  Hybrid_BN_A: 1
   RF: 0
   RBF_SVM: 0
-  CNN2D: 1
-  CNN3D: 1
+  CNN2D: 0
+  CNN3D: 0
 

@@ -1,7 +1,7 @@
-data: ../../Training7/DataSource/lin1-10/x-sg-snv/data-train
-label: ../../Training7/DataSource/lin1-10/x-sg-snv/label-train
-output: ../../Training7/Result/ProcessedData/lin1-10-train
-test_ratio: 0.1
+data: ../processed_dataset/datacubes
+label: ../processed_dataset/cell_labels
+output: ../Experiment1/network_input
+test_ratio: 0.01
 patch_size: 25
 pca_components: 30
 patch_stride: 10
