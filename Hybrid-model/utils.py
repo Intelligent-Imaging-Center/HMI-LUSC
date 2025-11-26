@@ -21,7 +21,7 @@ def generate_file_list(dir, end):
     list.sort()
     return list
 
-# 对高光谱数据 X 应用 PCA 变换
+# Perform PCA transformation for hyperspectral data X
 def applyPCA(X, numComponents):
     newX = np.reshape(X, (-1, X.shape[2]))
     pca = PCA(n_components=numComponents, whiten=True)
@@ -60,9 +60,10 @@ def process_tif_img(img):
 def read_process_tif_img(file):
     return process_tif_img(read_tif_img(file))
 
+# Load model from parameter file
 def load_model(param_dir, param_file, model_name, logger, device, **kwargs):
     param_file = param_dir+"/"+param_file
-    max_type = kwargs.get("max_type", None)  # 获取 max_type，默认为4
+    max_type = kwargs.get("max_type", None)  
     if model_name == "Hybrid_BN_A":
         if max_type is None:
             model = HybridSN_BN_Attention()
@@ -104,7 +105,7 @@ def load_model(param_dir, param_file, model_name, logger, device, **kwargs):
     return model
 
 # ----------------------------------- Processing raw image ------------------------------------------------
-# 对单个像素周围提取 patch 时，边缘像素就无法取了，因此，给这部分像素进行 padding 操作
+# Perform zero padding for pixels at image edges when extracting patches
 def padWithZeros(X, margin=2):
     newX = np.zeros((X.shape[0] + 2 * margin, X.shape[1] + 2* margin, X.shape[2]))
     x_offset = margin

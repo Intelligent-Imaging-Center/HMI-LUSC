@@ -53,9 +53,16 @@ When three folders can prepared, you can run ./preprocess/label_generation.py to
 # 4. Tumor Detection Network
 To this point, you should have accessed to all required data and labels for tumor detection deep learning.
 ## 4.1 Usage instruction
-In this experiment we use patch level diagonosis 
+In this experiment we use patch level diagonosis to perform pixel-level segmentation. In other word, we will extract a small patch from one pixel as one sample data and let the pixel label as the patch label. We will extract patches from all available data in the training set on a balanced types basis, where the ratio for 0123 is 2:1.5:0.5:1. The variable patch_stride is a deprecated variable and no longer effective.
 
 To train your own models, adjust files in /Hybrid-model/configs and run /Hybrid-model/preprocess.py, train.py and test.py sequentially. Variables names are self-explanatory. The train\_model parameters in train.yml and test\_model-test parameters in test.yml indicating what models are involved, where 1 means including the model and 0 means excluding the model.
+
+There are 5 models to choose from, where the first three CNN models are defined in models/HybridSN
+- HybridSN: modified from ...
+- CNN3D: A simple implementation of CNN3D.
+- CNN2D: A simple implementation of CNN2D.
+- RF (random forest): sklearn implementation with default value...
+- SVM (support vector machine): sklearn implementation with default value...
 
 Once the test.py finishes, the probability npy files are generated and we will use /Hybrid-model/postprocess.py and postprocess\_direct.py to obtain the full prediction labels. The main difference between two files is that postprocess\_direct.py will predict each pixel by its highest probability type, where postprocess.py would additionally consider adjacent prediction types and use a voting strategy to achieve instance segmentation.
 
