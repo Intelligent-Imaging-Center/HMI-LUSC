@@ -5,8 +5,18 @@ HMI\_LUSC is the first publicly available hyperspectral imaging(HMI) dataset for
 Dataset can be found in https://doi.org/10.6084/m9.figshare.30188080.v1.
 
 # Prerequiste
-
 Python, PyTorch and related libraries. All libraries should be easily installed by pip3.
+
+# Preprocessing
+The dataset downloaded contain 10 patients, where each patients have several ROI regions indicated by LUSC_ROI_i. The ROI subfolder contain raw hyperspectral images stored in hdr and dat pair format for ENVI software reading, two labels files in png corresponding to coarse and cell-level annotation, and an RGB file for the pesudo-RGB image.
+
+You can run "preprocess.py" file to convert the raw dataset folder into a preprocessed dataset which is more suitable for deep learning, such that hyperspectral images, labels and rgb images are in separate folders, and hyperspectral images would receive spectral smoothing, stretching and normalization into [0,1] range. The configurations needed to adjust are self-explanary with comments, and for this project's purpose you only need to adjust the DATA_SOURCE_FOLDER to the dataset path and OUTPUT_FOLDER to your designated place.
+
+The output folder would contain the following subfolders:
+- cell_labels, cell-level labels, where 0,1,2,3 are corresponding to non-cell, ill-cell, non-ill cell and background region. You can consider it as instance segmantation for cell.
+- datacubes, preprocessed hyperspectral datacubes in [0,1] range.
+- labels, coarse labels originally provided by pathologists, where 0 indicating non-ill and 1 indicating ill.
+- rgbs, mainly used for visual check and neccessary for cell-level label generation interface we designed
 
 # Cell-level Label generation
 
