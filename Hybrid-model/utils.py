@@ -15,6 +15,8 @@ import joblib
 from dataset import *
 from models.HybridSN import *
 import tqdm
+from numpy.lib.stride_tricks import sliding_window_view
+
 # -------------------------------------Read image and model--------------------------------------------
 def generate_file_list(dir, end):
     list = [os.path.join(dir,f) for f in os.listdir(dir) if f.endswith(end)]
@@ -32,8 +34,6 @@ def applyPCA(X, numComponents):
 # Change HDR file into an image array with 69 bands 
 def read_hdr_file(file):
     return np.array(scipy.signal.savgol_filter(open_image(file).load(),5,2))
-    # return np.array(open_image(file).load())
-    # return np.array(open_image(file).load())[:,:,30:31]
 
 # Process data, including PCA and normalization
 def process_hdr_image(img, pca_components):
@@ -168,16 +168,18 @@ def getPatchesXFromImage(X, XIndex, YIndex, windowSize=25, padded = False):
     margin = int((windowSize - 1) / 2)
     if not padded:
         zeroPaddedX = padWithZeros(X, margin)
+    else:
+        zeroPaddedX = X
+        
     N = XIndex.shape[0]
     # split patches
     patchesData = np.zeros((N, windowSize, windowSize, X.shape[2]),dtype=np.float32)
     for i in range(0, N):
         r = XIndex[i]
         c = YIndex[i]
-        if padded:
-            patchesData[i, :, :, :] = generatePatch(X,r+margin,c+margin,margin) 
-        else: 
-            patchesData[i, :, :, :] = generatePatch(zeroPaddedX,r+margin,c+margin,margin) 
+        # XIndex/YIndex are coordinates in the ORIGINAL image (0..H-1)
+        # In padded image, these become (r+margin, c+margin)
+        patchesData[i, :, :, :] = generatePatch(zeroPaddedX,r+margin,c+margin,margin) 
     return patchesData
 
 def getPatchesYFromImage(y, XIndex, YIndex):
@@ -245,50 +247,87 @@ def toNetPatch(patch):
     return patch.transpose(0, 4, 3, 1, 2)
 
 # Should start from preprocessed data (patch, Y)
-def patch_predict(patch, Y, margin, model, net, device, logger, batch_size,prob=1):
-    if (net):
-        patch = toNetPatch(patch)
-        XDataset = TestDS(patch,Y)
-        input_loader = torch.utils.data.DataLoader(dataset=XDataset, batch_size=batch_size, shuffle=False,num_workers=0)
-        acc, spe, sen, y_prediction = test_acc(model, input_loader, device, logger, False)
-        # logger.info("Prediction has acc %s spe %s sen %s", str(acc), str(spe), str(sen))
-        # logger.info("prediction has shape %s", str(y_prediction.shape))
-        return y_prediction
+def patch_predict(patch, Y, margin, model, net, device, logger, batch_size, prob=1):
+    """
+    Optimized patch_predict:
+    1. Removes redundant DataLoader/Dataset instantiation (major overhead).
+    2. Removes useless metric calculations (accuracy/confusion matrix) during pure inference.
+    3. Uses direct Tensor operations for PyTorch models.
+    """
+    if net:
+        # Preprocess: (Batch, H, W, Bands) -> (Batch, 1, Bands, H, W)
+        # toNetPatch is the existing helper in utils.py
+        net_input = toNetPatch(patch)
+        
+        # Convert directly to Tensor and move to GPU
+        # Avoids wrapping in a Dataset/DataLoader since 'patch' is already a batch
+        inputs = torch.from_numpy(net_input).float().to(device)
+        
+        model.eval()
+        with torch.no_grad():
+            outputs = model(inputs)
+            
+            if prob:
+                # Return raw probabilities/logits
+                return outputs.detach().cpu().numpy()
+            else:
+                # Return class indices
+                return np.argmax(outputs.detach().cpu().numpy(), axis=1)
     else:
+        # Machine Learning Models (SVM/RF)
+        # Flatten: (Batch, H, W, Bands) -> (Batch, Features)
+        flat_patch = patch.reshape(patch.shape[0], -1)
+        
         if prob:
-            result = model.predict_proba(patch.reshape(patch.shape[0],-1))
+            return model.predict_proba(flat_patch)
         else:
-            result = model.predict(patch.reshape(patch.shape[0],-1))
-        return result
+            return model.predict(flat_patch)
 
 # input
-# X: h x w x b
+# X: h x w x b (already padded)
 # Y: (hxw)
-def padded_img_predict(X, Y, windowSize, model, net, device, logger, batch_size,prob=1):
-    
-    patchStride = 1
-    margin = (windowSize-1)//2
+def padded_img_predict(X, Y, windowSize, model, net, device, logger, batch_size, prob=1):
+    margin = (windowSize - 1) // 2
     logger.info("margin is %s", str(margin))
-    output = np.array([])
-    first = True
-    XIndex, YIndex = generateIndexPairByStride(Y.shape[0], Y.shape[1], 1)
-    IndexDataset = IndexDS(XIndex,YIndex)
-    index_loader = torch.utils.data.DataLoader(dataset=IndexDataset, batch_size=batch_size, shuffle=False,num_workers=0)
-    for rows, cols in tqdm.tqdm(index_loader):
-        # logger.info("Now we have % th batch")
-        batchPatch = getPatchesXFromImage(X,rows,cols,windowSize,True)
-        batchY = getPatchesYFromImage(Y,rows,cols)
-        prediction = patch_predict(batchPatch, batchY,margin, model, net, device, logger, batch_size,prob=prob)
-        # print("output   and prediction shape are ", output.shape, prediction.shape)
-        if first:
-            output= prediction
-            first = False
-        else:
-            output = np.concatenate((output,prediction))
+    
+    # Use sliding_window_view for ultra-fast vectorization (eliminates the loop)
+    # X has shape (H_padded, W_padded, Bands). 
+    # We slide over spatial dims (0, 1) with window (windowSize, windowSize).
+    # Output of sliding_window_view: (H, W, Bands, win_h, win_w)
+    patches_view = sliding_window_view(X, (windowSize, windowSize), axis=(0, 1))
+    
+    # We need shape: (H*W, win_h, win_w, Bands)
+    # Current: (rows, cols, bands, win_h, win_w) -> transpose to (rows, cols, win_h, win_w, bands)
+    patches_view = patches_view.transpose(0, 1, 3, 4, 2)
+    
+    # Flatten spatial dims to make a giant batch of patches
+    # Shape: (Total_Pixels, win_h, win_w, Bands)
+    flat_patches = patches_view.reshape(-1, windowSize, windowSize, X.shape[2])
+    
+    num_samples = flat_patches.shape[0]
+    predictions_list = []
+    
+    logger.info("Total patches to predict: %d", num_samples)
+    
+    # Process in batches to avoid OOM, but using vectorized slices
+    for i in tqdm.tqdm(range(0, num_samples, batch_size)):
+        batch_patch = flat_patches[i : i + batch_size]
+        
+        # Create dummy labels for batch (TestDS requires it, but we don't use accuracy here)
+        dummy_Y = np.zeros(batch_patch.shape[0])
+        
+        # Ensure memory is contiguous for efficient processing (especially for SVM/Cupy)
+        batch_patch = np.ascontiguousarray(batch_patch)
+        
+        prediction = patch_predict(batch_patch, dummy_Y, margin, model, net, device, logger, batch_size, prob=prob)
+        predictions_list.append(prediction)
+        
+    output = np.concatenate(predictions_list, axis=0)
+
     if prob:
-        return output.reshape((Y.shape[0],Y.shape[1],4))
+        return output.reshape((Y.shape[0], Y.shape[1], 4)) # Here 4 corresponding to our 0123 four classes
     else:
-        return output.reshape((Y.shape[0],Y.shape[1]))
+        return output.reshape((Y.shape[0], Y.shape[1]))
 
 def train(net, logger, device, train_loader, test_loader, lr = 0.001, num_epoch=30, lr_steps=[20,40], gamma=0.1):
     device_ids = [i for i in range(torch.cuda.device_count())]

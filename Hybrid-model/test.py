@@ -36,7 +36,6 @@ pca_components = configs["pca_components"]
 patch_size = configs["patch_size"]
 batch_size = configs["batch_size"]
 SVM_patch_size = configs["SVM_patch_size"]
-test_num = configs["test_num"]
 
 if not(os.path.exists(prediction_dir)):
     os.mkdir(prediction_dir)
@@ -66,8 +65,6 @@ csv_rows = []
 
 # Start testing
 for n in range(0, N):
-    if n >= test_num:
-        break
     logger.info("Now processing image %s", data_files[n])
     logger.info("Now processing image %s", label_files[n])
     print("Now processing image %s", data_files[n])
