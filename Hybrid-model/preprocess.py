@@ -72,7 +72,7 @@ logger.info("Y shape before %s", Y.shape)
 patch_label = Y
 logger.info("Y shape after %s", patch_label.shape)
 
-# 获得最终的训练集和测试集，保存到硬盘
+# Obtain train test split
 X_train, X_test, y_train, y_test = splitTrainTestSet(patch_data, patch_label, test_ratio)
 logger.info("Train size %s", X_train.shape[0])
 logger.info("Test size %s", X_test.shape[0])

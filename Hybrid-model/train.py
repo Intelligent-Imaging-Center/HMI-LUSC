@@ -145,7 +145,7 @@ if(configs['train_models']['RBF_SVM']):
         cp.cuda.Device(0).use()
     else:
         from sklearn.svm import SVC
-    svm_rbf = SVC(kernel = 'rbf')    # Allow to switch to other kernels such as 'linear', 'poly', 'sigmoid'
+    svm_rbf = SVC(kernel = 'rbf', probability= True)    # Allow to switch to other kernels such as 'linear', 'poly', 'sigmoid'
 
     # Train SVM
     print("Start training RBF SVM")

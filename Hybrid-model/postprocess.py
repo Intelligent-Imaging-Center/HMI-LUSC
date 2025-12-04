@@ -1,211 +1,288 @@
 import os
-from pathlib import Path
-import sys
 import numpy as np
-from PIL import Image
-import skimage.io as io
-import torch.nn.functional as F
+import csv
 import torch
-
+import torch.nn.functional as F
+from sklearn.metrics import confusion_matrix
+from PIL import Image
+import tqdm
+from pathlib import Path
+import imageio.v2 as iio
 import cv2
 import matplotlib.pyplot as plt
-from tqdm import *
 
-def generate_file_list(dir, end):
-    list = [os.path.join(dir,f) for f in os.listdir(dir) if f.endswith(end)]
-    list.sort()
-    return list
+# ======================= CONFIGURATION =======================
+# 1. Directories
+TEST_OUTPUT_ROOT = "D:/Experiment/test_output"
+GT_LABEL_DIR = "../processed_dataset/cell_labels"
+FINAL_OUTPUT_ROOT = "../Experiment1/final_output_instance"
+REPORT_FILE = os.path.join(FINAL_OUTPUT_ROOT, "performance_report_postprocessed.csv")
 
-def get_file_name(path):
-    return Path(path).stem
+# 2. Models
+MODELS_TO_PROCESS = ["CNN3D", "CNN2D", "RBF_SVM", "RF"]
 
-# read and process label tif image, only keep red channel and change[0, 255] to [0, 1]
-def read_tif_img(file):
-    return io.imread(file)
+# 3. Parameters from your original code
+SOFT_PROB_THRESH = 0.5
+CONNECTED_THRESH = 50
+CONNECTIVITY_PARAM = 8
 
-def process_tif_img(img):
-    if(len(img.shape)>2):
-        r_img = img[:,:,0]
-        r_img[r_img==255]=1
-        return r_img
+# 4. Classes & Colors
+CLASSES = ["Non-Cell", "Normal Cell", "Ill Cell", "Background"]
+COLOR_MAP = {
+    0: [0, 0, 0],       # Non-Cell
+    1: [255, 0, 0],     # Normal Cell
+    2: [0, 255, 0],     # Ill Cell
+    3: [0, 0, 255],     # Background
+    4: [255, 255, 255]  # Undefined (White)
+}
+# =============================================================
+
+def generate_file_list(dir_path, extension):
+    if not os.path.exists(dir_path):
+        return []
+    files = [f for f in os.listdir(dir_path) if f.endswith(extension)]
+    files.sort()
+    return files
+
+def calculate_metrics(conf_matrix):
+    tp = np.diag(conf_matrix)
+    fp = np.sum(conf_matrix, axis=0) - tp
+    fn = np.sum(conf_matrix, axis=1) - tp
+    tn = conf_matrix.sum() - tp - fp - fn
+
+    with np.errstate(divide='ignore', invalid='ignore'):
+        accuracy = (tp + tn) / (tp + tn + fp + fn)
+        specificity = tn / (tn + fp)
+        sensitivity = tp / (tp + fn)
+        dice = 2 * tp / (2 * tp + fn + fp)
+
+    return np.nan_to_num(accuracy), np.nan_to_num(specificity), np.nan_to_num(sensitivity), np.nan_to_num(dice)
+
+def load_ground_truth(gt_dir, file_stem):
+    npy_path = os.path.join(gt_dir, f"{file_stem}.npy")
+    if os.path.exists(npy_path):
+        data = np.load(npy_path)
+        if hasattr(data, 'get'): data = data.get()
+        return data
+
+    png_path = os.path.join(gt_dir, f"{file_stem}.png")
+    if os.path.exists(png_path):
+        img = np.array(iio.imread(png_path))
+        if img.ndim == 3: img = img[:, :, 0]
+        img[img == 255] = 1 
+        return img.astype(np.uint8)
+    return None
+
+def save_visualization(prediction_class, save_path):
+    h, w = prediction_class.shape
+    vis_img = np.zeros((h, w, 3), dtype=np.uint8)
+    for class_idx, color in COLOR_MAP.items():
+        vis_img[prediction_class == class_idx] = color
+    Image.fromarray(vis_img).save(save_path)
+
+def apply_postprocessing_logic(prob_map, h, w, use_softmax=False, filename=""):
+    """
+    Optimized implementation of your original logic using Bounding Boxes (ROI)
+    to avoid full-image processing in loops.
+    """
+    # --- 1. PREPARE PROBABILITIES ---
+    prob_flat = prob_map.reshape(-1, 4)
+    if use_softmax:
+        prob_tensor = torch.from_numpy(prob_flat).float()
+        prob_soft = F.softmax(prob_tensor, dim=1).numpy()
     else:
-        return img
+        prob_soft = prob_flat
+    prob_img = prob_soft.reshape(h, w, 4)
 
-def softmax(x):
-    max = np.max(x,axis=1,keepdims=True)
-    e_x = np.exp(x-max)
-    sum = np.sum(e_x,axis=1,keepdims=True)
-    return e_x/sum
-
-def read_process_tif_img(file):
-    return process_tif_img(read_tif_img(file))
-
-
-source_dir = "D:/Experiment/test_output/CNN3D/output"
-# source_dir = "../Experiment1/outputProb/CNN3D/output"
-target_dir = "../Experiment1/outputLabel/CNN3D"
-
-#source_dir = "D:/Training7/GeneratedProb/lin1-10/Hybrid_BN_A/output"
-#target_dir = "D:/Training7/PostProcess/lin1-10"
-polished_dir = target_dir+"/polished_output"
-noisy_dir = target_dir+"/noisy_output"
-each_type_dir = target_dir+"/each_type"
-soft_prob_thresh = 0.5
-connected_thresh = 50
-connectivityParam = 8
-net = 0
-
-os.makedirs(target_dir, exist_ok=True)
-
-class_name = ["non-cell","non-ill-cell","ill-cell","background"]
-if not(os.path.exists(target_dir)):
-    os.mkdir(target_dir)
-if not(os.path.exists(polished_dir)):
-    os.mkdir(polished_dir)
-if not(os.path.exists(noisy_dir)):
-    os.mkdir(noisy_dir)
-if not(os.path.exists(each_type_dir)):
-    os.mkdir(each_type_dir)
-# obtain file list
-file_list = generate_file_list(source_dir, 'npy')
-for f in file_list:
-    filename = get_file_name(f)
-    filename_without_ext = f.split('.')[0]
-    prediction_prob = np.load(f)
-    h,w,d = prediction_prob.shape
-    prediction_prob = prediction_prob.reshape((h*w,d))
-    if net:
-        prediction_soft_prob = F.softmax(torch.FloatTensor(prediction_prob), dim=1)
-    else:
-        prediction_soft_prob = prediction_prob
-    filtered_class = np.zeros((h,w,4),dtype=np.uint8)
-    # For each class
-    for type in [0,1,2,3]:
-        type_name = class_name[type]
-        # generate heat map
-        data = prediction_soft_prob[:,type]
-        if net:
-            data = data.numpy()
-        data = data.reshape((h,w))
-        fig = plt.figure(frameon=False)
-        fig.set_size_inches(w/100,h/100)
-        ax = plt.Axes(fig, [0.,0.,1.,1.])
-        ax.set_axis_off()
-        fig.add_axes(ax)
-        ax.imshow(data, cmap='hot', interpolation='nearest',aspect = 'auto')
-        fig.savefig(os.path.join(each_type_dir,filename+"_"+type_name+".tif"))
-        # generate filtered components
-        ret, thresh = cv2.threshold(data,soft_prob_thresh,1,cv2.THRESH_BINARY)
+    # --- 2. THRESHOLDING & FILTERING ---
+    filtered_class = np.zeros((h, w, 4), dtype=np.uint8)
+    
+    # Process each class type
+    for type_idx in range(4):
+        data = prob_img[:, :, type_idx]
+        _, thresh = cv2.threshold(data, SOFT_PROB_THRESH, 1, cv2.THRESH_BINARY)
         thresh_uint = thresh.astype(np.uint8)
-        num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(thresh_uint, connectivity = connectivityParam)
-        areas = list()
-        for i in range(num_labels):
-            areas.append(stats[i][-1])
-        image_filtered = np.zeros_like(thresh_uint)
-        for (i,label) in enumerate(np.unique(labels)):
-            if label == 0:
-                continue
-            if stats[i][-1] > connected_thresh:
-                image_filtered[labels == i] = 255
-        filtered_class[:,:,type] = image_filtered
-        im = Image.fromarray(image_filtered)
-        im.save(os.path.join(each_type_dir,filename+"_"+type_name+"_filtered.tif"))
-        # plt.show()
-        plt.close()
-    
-    # filtered_class done, check sum to decide pixel
-    filtered_class[filtered_class==255] = 1
-    filtered_class_sum = np.sum(filtered_class,axis = 2)        
-    # 0,1 2 3 for other non-ill ill background
+        
+        num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(thresh_uint, connectivity=CONNECTIVITY_PARAM)
+        
+        # Fast vector filtering using stats (no loop needed)
+        # Stats cols: [x, y, w, h, area]
+        valid_indices = np.where(stats[:, 4] > CONNECTED_THRESH)[0]
+        # Remove background label 0 from valid indices
+        valid_indices = valid_indices[valid_indices != 0]
+        
+        # Create mask for this class
+        image_filtered = np.isin(labels, valid_indices).astype(np.uint8) * 255
+        filtered_class[:, :, type_idx] = image_filtered
 
-    # print(prediction_prob.shape)
-    # prediction_class = np.argmax(prediction_soft_prob, axis=1)
-    # prediction_class = prediction_class.reshape((h,w))
-    # print(np.unique(prediction_class))
-    # png_img = io.imread(f)
-    # print(png_img.shape)
-    # print(np.unique(png_img[:,:,0]))
-    # print(np.unique(png_img[:,:,1]))
-    output_type = np.zeros((h,w),dtype=np.uint8)
-    output_type[filtered_class[:,:,0]==1] = 0
-    output_type[filtered_class[:,:,1]==1] = 1
-    output_type[filtered_class[:,:,2]==1] = 2
-    output_type[filtered_class[:,:,3]==1] = 3
-    output_type[filtered_class_sum == 0] = 4
+    # --- 3. INITIAL COMBINATION (NOISY MAP) ---
+    filtered_class[filtered_class == 255] = 1
+    filtered_sum = np.sum(filtered_class, axis=2)
+    
+    output_type = np.full((h, w), 4, dtype=np.uint8) # Default 4
+    # Assign classes: 0 -> 1 -> 2 -> 3 priority (same as your code)
+    output_type[filtered_class[:, :, 0] == 1] = 0
+    output_type[filtered_class[:, :, 1] == 1] = 1
+    output_type[filtered_class[:, :, 2] == 1] = 2
+    output_type[filtered_class[:, :, 3] == 1] = 3
+    # Any pixel not claimed (sum==0) is already 4
 
-
-    output_tif = np.zeros((h,w,3),dtype=np.uint8)
-    output_tif[output_type == 1] = [255,0,0]
-    output_tif[output_type == 2] = [0,255,0]
-    output_tif[output_type == 3] = [0,0,255]
-    output_tif[output_type == 4] = [255,255,255]
-    im = Image.fromarray(output_tif)
-    im.save(os.path.join(noisy_dir,filename+".tif"))
+    # --- 4. GAP FILLING (UNDEFINED PIXELS) ---
+    undefined_mask = (output_type == 4).astype(np.uint8)
+    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(undefined_mask, connectivity=CONNECTIVITY_PARAM)
     
-    
-    # filter undefined pixel, iterate all undefined pixel connected components, find surrounding pixel type, 
-    # change it based on non-ill-cell > ill-cell > background > non-cell order, or 1>2>3>0
-    undefined_pixel = np.where(output_type==4,1,0)
-    undefined_pixel = undefined_pixel.astype(np.uint8)
-    num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(undefined_pixel, connectivity = connectivityParam)
-    print("number of undefined connected components is ", num_labels)
-    for (i,label) in tqdm(enumerate(np.unique(labels))):
-        if label == 0:
-            continue
-        label_mask = np.zeros((h,w),np.uint8)
-        label_mask[labels==i] = 1
-        kernel = np.ones((3,3),np.uint8)
-        dilated_label_mask = cv2.dilate(label_mask, kernel, iterations = 1)
-        neighbors = dilated_label_mask - label_mask
-        # print(np.unique(output_type[dilated_label_mask==1]))
-        # print(np.unique(output_type[label_mask==1]))
-        neighbor_types = np.unique(output_type[neighbors == 1])
-        neighbor_types = np.delete(neighbor_types, neighbor_types == 4)
-        neighbor_types = np.sort(neighbor_types)
-        # Since neighbor types are sorted, 1230 priority, for multiple elements, choose the first one which is not zero. For other, pick the first element
-        # print(neighbor_types)
-        # print("area size", stats[i][-1])
-        if neighbor_types.shape[0] > 1 and 0 in neighbor_types:
-            output_type[label_mask==1] = neighbor_types[1]
-        else:
-            output_type[label_mask==1] = neighbor_types[0]
-    
-    
-    # Change 1 2 label.
-    cell_pixel = np.where(output_type==1,1,0) + np.where(output_type == 2,1,0)
-    cell_pixel = cell_pixel.astype(np.uint8)
-    num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(cell_pixel, connectivity = connectivityParam)
-    print("number of cell connected components is ", num_labels)
-    for (i,label) in tqdm(enumerate(np.unique(labels))):
-        if label == 0:
-            continue
-        label_mask = np.zeros((h,w),np.uint8)
-        label_mask[labels==i] = 1
-        cell_value = output_type[label_mask==1]
-        ill_num = np.count_nonzero(cell_value==2)
-        non_ill_num = np.count_nonzero(cell_value==1)
-        # Now using majority vote
-        if (ill_num >= non_ill_num):
-            output_type[label_mask == 1] = 2
-        else:
-            output_type[label_mask == 1] = 1
+    # Use tqdm to trace progress
+    if num_labels > 1:
+        # Loop over components (skip background 0)
+        # OPTIMIZATION: Use 'stats' to get bounding box. Do not process full image.
+        for i in tqdm.tqdm(range(1, num_labels), desc=f"Filling Gaps ({filename})", leave=False):
+            x, y, w_box, h_box, _ = stats[i]
             
-    # generate output tif
-    output_tif = np.zeros((h,w,3),dtype=np.uint8)
-    output_tif[output_type == 1] = [255,0,0]
-    output_tif[output_type == 2] = [0,255,0]
-    output_tif[output_type == 3] = [0,0,255]
-    # output_tif[output_type == 4] = [255,255,255]
+            # Add padding of 1 pixel to check neighbors
+            y1 = max(0, y - 2)
+            y2 = min(h, y + h_box + 2)
+            x1 = max(0, x - 2)
+            x2 = min(w, x + w_box + 2)
+            
+            # Slice ROIs
+            roi_labels = labels[y1:y2, x1:x2]
+            roi_output = output_type[y1:y2, x1:x2]
+            
+            # Create mask relative to ROI
+            label_mask_roi = (roi_labels == i).astype(np.uint8)
+            
+            # Dilate
+            kernel = np.ones((3, 3), np.uint8)
+            dilated_mask_roi = cv2.dilate(label_mask_roi, kernel, iterations=1)
+            
+            # Find neighbors in ROI
+            neighbors_roi = dilated_mask_roi - label_mask_roi
+            
+            # Get types from neighbors
+            neighbor_types = np.unique(roi_output[neighbors_roi == 1])
+            neighbor_types = neighbor_types[neighbor_types != 4] # Ignore other undefined
+            neighbor_types = np.sort(neighbor_types)
+            
+            # Logic: If >1 type and 0 exists, pick index 1. Else index 0.
+            if len(neighbor_types) > 0:
+                if len(neighbor_types) > 1 and 0 in neighbor_types:
+                    chosen_type = neighbor_types[1]
+                else:
+                    chosen_type = neighbor_types[0]
+                
+                # Update GLOBAL output using ROI mask
+                # We need to map ROI mask back to global coordinates
+                # Actually, we can just write to roi_output if it's a view? 
+                # No, numpy slice writes reflect in original array.
+                roi_output[label_mask_roi == 1] = chosen_type
+
+    # --- 5. MAJORITY VOTING (ILL VS NORMAL) ---
+    # Merge 1 and 2
+    cell_pixel = ((output_type == 1) | (output_type == 2)).astype(np.uint8)
+    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(cell_pixel, connectivity=CONNECTIVITY_PARAM)
     
-    # prediction_confusion = np.zeros((h*w),dtype=np.uint8)
-    # prediction_confusion[np.max(prediction_soft_prob.numpy(),axis=1)< 0.6] = 255
-    # prediction_confusion = prediction_confusion.reshape((h,w))
-    
-    im = Image.fromarray(output_tif)
-    im.save(os.path.join(polished_dir,filename+".tif"))
-    
-    
-    # im_conf = Image.fromarray(prediction_confusion)
-    # im_conf.save(os.path.join(target_dir,filename+"_confusion.tif"))
-    plt.close()
-    print(f, " Done")
+    if num_labels > 1:
+        for i in tqdm.tqdm(range(1, num_labels), desc=f"Majority Vote ({filename})", leave=False):
+            x, y, w_box, h_box, _ = stats[i]
+            
+            # Slice ROI (No padding needed for voting, just reading values)
+            y1, y2 = y, y + h_box
+            x1, x2 = x, x + w_box
+            
+            roi_labels = labels[y1:y2, x1:x2]
+            roi_output = output_type[y1:y2, x1:x2]
+            
+            label_mask_roi = (roi_labels == i)
+            
+            # Extract values for this cell
+            cell_vals = roi_output[label_mask_roi]
+            
+            ill_num = np.count_nonzero(cell_vals == 2)
+            non_ill_num = np.count_nonzero(cell_vals == 1)
+            
+            # Vote
+            if ill_num >= non_ill_num:
+                roi_output[label_mask_roi] = 2
+            else:
+                roi_output[label_mask_roi] = 1
+
+    return output_type
+
+def process_models():
+    # Initialize CSV
+    header = ['File', 'Model', 'Class', 'Accuracy', 'Specificity', 'Sensitivity', 'Dice']
+    with open(REPORT_FILE, 'w', encoding='utf-8', newline='') as csv_f:
+        writer = csv.writer(csv_f)
+        writer.writerow(header)
+        
+        model_total_confusion = {m: np.zeros((4, 4), dtype=np.int64) for m in MODELS_TO_PROCESS}
+
+        for model_name in MODELS_TO_PROCESS:
+            print(f"\n================ Processing Model: {model_name} ================")
+            
+            prob_dir = os.path.join(TEST_OUTPUT_ROOT, model_name, "output")
+            model_dest_dir = os.path.join(FINAL_OUTPUT_ROOT, model_name)
+            os.makedirs(model_dest_dir, exist_ok=True)
+            
+            use_softmax = "CNN" in model_name # Heuristic for logits vs probs
+
+            file_list = generate_file_list(prob_dir, '.npy')
+            if not file_list:
+                print(f"Warning: No files in {prob_dir}")
+                continue
+
+            # Main File Loop
+            for filename in tqdm.tqdm(file_list, desc=f"Total Progress {model_name}"):
+                file_stem = Path(filename).stem
+                
+                # 1. Load Probabilities
+                prob_raw = np.load(os.path.join(prob_dir, filename))
+                if hasattr(prob_raw, 'get'): prob_raw = prob_raw.get()
+
+                # 2. Load GT for Shape Info
+                gt_img = load_ground_truth(GT_LABEL_DIR, file_stem)
+                if gt_img is None:
+                    print(f"Skipping {filename}: No GT found (needed for dimensions)")
+                    continue
+                
+                H, W = gt_img.shape
+                
+                # 3. Reshape/Validate
+                if prob_raw.ndim == 2:
+                    if prob_raw.shape[0] == H * W:
+                        prob_map = prob_raw.reshape(H, W, 4)
+                    else:
+                        print(f"Size mismatch {file_stem}: GT {H}x{W} vs Data {prob_raw.shape}")
+                        continue
+                else:
+                    prob_map = prob_raw
+
+                # 4. RUN OPTIMIZED LOGIC
+                final_class_map = apply_postprocessing_logic(prob_map, H, W, use_softmax, file_stem)
+
+                # 5. Save
+                np.save(os.path.join(model_dest_dir, f"{file_stem}.npy"), final_class_map)
+                save_visualization(final_class_map, os.path.join(model_dest_dir, f"{file_stem}.tif"))
+
+                # 6. Metrics
+                y_true = gt_img.flatten()
+                y_pred = final_class_map.flatten()
+                
+                matrix = confusion_matrix(y_true, y_pred, labels=[0, 1, 2, 3])
+                model_total_confusion[model_name] += matrix
+                
+                acc, spec, sens, dice = calculate_metrics(matrix)
+                for i, cls_name in enumerate(CLASSES):
+                    writer.writerow([file_stem, model_name, cls_name, 
+                                     f"{acc[i]:.4f}", f"{spec[i]:.4f}", f"{sens[i]:.4f}", f"{dice[i]:.4f}"])
+
+            # Model Summary
+            total_acc, total_spec, total_sens, total_dice = calculate_metrics(model_total_confusion[model_name])
+            for i, cls_name in enumerate(CLASSES):
+                 writer.writerow(["TOTAL_SUMMARY", model_name, cls_name, 
+                                  f"{total_acc[i]:.4f}", f"{total_spec[i]:.4f}", f"{total_sens[i]:.4f}", f"{total_dice[i]:.4f}"])
+
+    print(f"\nProcessing Complete. Report: {REPORT_FILE}")
+
+if __name__ == "__main__":
+    process_models()

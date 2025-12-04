@@ -89,7 +89,7 @@ for n in range(0, N):
                 print("Using SVM to predict")
                 prediction_img_red = padded_img_predict(SVM_padded_data, label, SVM_patch_size, model, 
                                                    configs['test_models'][model_name]['net'],
-                                                    device, logger, batch_size,prob=0)
+                                                    device, logger, batch_size,prob=1)
             else:
                 prediction_img_red = padded_img_predict(padded_data, label, patch_size, model, configs['test_models'][model_name]['net'],
                                                    device, logger, batch_size)
