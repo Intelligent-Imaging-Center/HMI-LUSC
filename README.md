@@ -4,6 +4,12 @@ HMI\_LUSC is the first publicly available hyperspectral imaging(HMI) dataset for
 
 Dataset can be found in https://doi.org/10.6084/m9.figshare.30188080.v1.
 
+# Environment Requirement
+You can use requirement.txt to install all required packages
+```python
+pip install -r requirements.txt
+```
+
 # 1. Prerequiste
 Python, PyTorch and related libraries. All libraries should be easily installed by pip3.
 
@@ -46,7 +52,7 @@ Once you obtain the cell and background labels, together with the tumor label pr
 You should have 3 input folders ready
 - coarse labels folder, indicating whether regions are ill or non-ill, which is provided by the original dataset and can be found in the output folder of 2. Preprocessing.
 - cell folder, indicating which regions belong to cells, provided by 3.2 QtLabels generation
-- background folder, indicating what areas are background, selected due to background noise is very large, provided by 3.2 Qtlabels generation or by Photoshop region selection. We do it by photoshop since background are connected with clear edges with tissue regions.
+- background folder, indicating what areas are background, selected due to background noise is very large, provided by 3.2 Qtlabels generation or other region selection softwares. 
 
 When three folders can prepared, you can run ./preprocess/label_generation.py to obtain the four class labels. We have provided ./preprocess/label_generation_sample.py for testing. These data come from the actual labels we have used in real experiments and full data can be obtained by request.    
 

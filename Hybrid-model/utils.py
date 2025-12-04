@@ -13,7 +13,7 @@ import imageio.v2 as iio
 import joblib 
 # custum library
 from dataset import *
-from models.HybridSN import *
+from models.network_models import *
 import tqdm
 from numpy.lib.stride_tricks import sliding_window_view
 import torch

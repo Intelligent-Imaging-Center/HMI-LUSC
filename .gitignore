@@ -8,3 +8,4 @@ processed_dataset/*
 new_tools/*
 postprocess/*
 preprocess_data/*
+.gitignore

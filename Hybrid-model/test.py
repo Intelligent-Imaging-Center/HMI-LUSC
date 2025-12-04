@@ -2,7 +2,7 @@ from utils import *
 import yaml
 import os
 import logging
-from models.HybridSN import *
+from models.network_models import *
 import csv
 
 from PIL import Image
@@ -21,15 +21,15 @@ with open('./configs/test.yml', 'r') as stream:
 
 
 # ------------------------------------------Read Configuration----------------------------------------
-# 模型文件夹
+# Trained Model Parameter directory
 parameter_dir = configs["parameter_dir"]
-# 输出文件夹，保存(patch, label)对
+# Input data folder in hyperspectral format
 input_dir = configs["input_dir"]
-# Y文件夹
+# Label folder
 label_dir = configs["label_dir"]
-# 输出文件夹，保存(patch, label)对
+# Output folders storing prediction results in probability in each class npy format
 prediction_dir = configs["prediction_dir"]
-# 选择需要测试的模型，并生成预测结果
+# Selection of models to be tested
 test_models = configs["test_models"]
 # PCA, must match train config
 pca_components = configs["pca_components"]
@@ -40,7 +40,6 @@ SVM_patch_size = configs["SVM_patch_size"]
 if not(os.path.exists(prediction_dir)):
     os.mkdir(prediction_dir)
 # -------------------------------------------Read Data and Label-----------------------------------------
-# !!! 考虑去噪和SG平滑
 # Prepare input data
 data_files = generate_file_list(input_dir, 'hdr')
 label_files = generate_file_list(label_dir, "png")
@@ -102,20 +101,3 @@ for n in range(0, N):
                 os.mkdir(prediction_model_name)
                 os.mkdir(prediction_model_name+"/output")
             np.save(prediction_model_name + "/output/" + input_file_without_ext, prediction_img_red)
-
-            # graph_ill_cell_label =  np.zeros((prediction_img_red.shape[0],prediction_img_red.shape[1],3), dtype=np.uint8)
-            # graph_ill_cell_label[:,:,0] = np.where(prediction_img_red==1,255,0)
-            # graph_ill_cell_label[:,:,1] = np.where(prediction_img_red==2,255,0)
-            # graph_ill_cell_label[:,:,1] = np.where(prediction_img_red==3,255,0)
-            # prediction_img_red[prediction_img_red==1] = 255
-            # prediction_img = np.zeros((prediction_img_red.shape[0],prediction_img_red.shape[1],3), dtype=np.uint8)
-            # prediction_img[:,:,0] = prediction_img_red
-            # prediction_img[:,:,1] = prediction_img_red
-            # Save to directory
-            # prediction_model_name = prediction_dir + "/" + model_name
-            # if not(os.path.exists(prediction_model_name)):
-            #     os.mkdir(prediction_model_name)
-            #     os.mkdir(prediction_model_name+"/output")
-            # output_img = Image.fromarray(graph_ill_cell_label)
-            # input_file_name = os.path.basename(label_files[n])
-            # output_img.save(prediction_model_name + "/output/" + input_file_name)

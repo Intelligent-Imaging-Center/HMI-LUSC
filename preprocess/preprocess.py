@@ -217,7 +217,6 @@ def main():
                         denominator = white_3d - dark_3d
                         spectral_cube = numerator / (denominator + 1e-6)
                         
-                        print(f"[DEBUG] {unique_name} Reflectance Corrected Range: Min={np.min(spectral_cube):.4f}, Max={np.max(spectral_cube):.4f}")
                     else:
                         print(f"[ERROR] Band mismatch: Raw({d}) vs Dark({len(dark_spectrum)}) vs White({len(white_spectrum)})")
                 else:

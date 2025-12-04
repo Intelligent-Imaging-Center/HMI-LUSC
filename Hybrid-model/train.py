@@ -1,4 +1,4 @@
-from models.HybridSN import *
+from models.network_models import *
 import logging
 import yaml
 import os

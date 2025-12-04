@@ -16,7 +16,6 @@ class ChannelAttention(nn.Module):
 
     def forward(self, x):
         avg_out = self.fc2(self.relu1(self.fc1(self.avg_pool(x))))
-        #print(avg_out.size())
         max_out = self.fc2(self.relu1(self.fc1(self.max_pool(x))))
         out = avg_out + max_out
         return self.sigmoid(out)
@@ -38,6 +37,7 @@ class SpatialAttention(nn.Module):
         x = self.conv1(x)
         return self.sigmoid(x)
 
+# Hybrid Spectral Network with Batch Normalization and Attention
 class HybridSN_BN_Attention(nn.Module):
     def __init__(self, in_channels=1, out_channels=2):
         super(HybridSN_BN_Attention, self).__init__()
@@ -85,6 +85,7 @@ class HybridSN_BN_Attention(nn.Module):
         x = self.classifier(x)
         return x
 
+# CNN2D Model
 class CNN2D(nn.Module):
     def __init__(self, in_channels=1, out_channels=2):
         super(CNN2D, self).__init__()
@@ -126,6 +127,7 @@ class CNN2D(nn.Module):
         x = self.classifier(x)
         return x
 
+# CNN3D Model
 class CNN3D(nn.Module):
     def __init__(self, in_channels=1, out_channels=2):
         super(CNN3D, self).__init__()
@@ -166,19 +168,8 @@ class CNN3D(nn.Module):
         x = self.ca(x) * x
         x = self.sa(x) * x
 
-        # x = self.conv2d_features(x)
         x = x.view(x.size()[0],-1)
         x = self.classifier(x)
         return x
 
-# 打印网络结构  
-# from torchinfo import summary
-
-# # 网络放到GPU上
-# net = HybridSN_BN_Attention()
-# net = CNN2D()
-# net = CNN3D()
-# # 网络总结 
-# summary(net, input_size=(100, 1, 30, 25, 25),col_names=['num_params','kernel_size','input_size','output_size'],
-#         col_width=10,row_settings=['var_names'],depth=4)
 
