@@ -161,11 +161,9 @@ def generateIndexPairMultipleWrapper(Y, stride):
     data = np.apply_along_axis(generateIndexPair,1,Y,stride,h,w )
     return data
 
-# 在每个像素周围提取 patch ，然后创建成符合 keras 处理的格式
-# 输入：单张高光谱图X（H,W,B)与已经经过0/1预处理的标签图y（H,W)，windowSize指patch的长宽
-# 此处removeZeroLabels可考虑改为随机删去k%个zeroLabel
-# 输出：patch对（patch，label），一共有H*W个
-# patches（H*W，window，window，B），label（H*W，1）
+# Extract patches from image X based on given XIndex and YIndex
+# Input: Single hyperspectral image X (H,W,B) and preprocessed label image y (H,W), windowSize is the patch size
+# Output: patches（H*W，window，window，B），label（H*W，1）
 def getPatchesXFromImage(X, XIndex, YIndex, windowSize=25, padded = False):
     margin = int((windowSize - 1) / 2)
     if not padded:
@@ -191,7 +189,7 @@ def getPatchesYFromImage(y, XIndex, YIndex):
         patchesLabels[i] = y[r,c]
     return patchesLabels
 
-# 将testRatio比例的数据划分至测试集
+# Split dataset into training and testing set
 def splitTrainTestSet(X, y, testRatio, randomState=345):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=testRatio, random_state=randomState, stratify=y)
     X_train = np.array(X_train, dtype=np.float32)
@@ -215,7 +213,6 @@ def predict_report(y_true, y_pred, logger):
 def test_acc(net, test_loader, device, logger, findMax = True):
     count = 0
     net.eval()
-    # 模型测试
     with torch.no_grad():
         for inputs, label in test_loader:
             inputs = inputs.to(device)
@@ -232,10 +229,7 @@ def test_acc(net, test_loader, device, logger, findMax = True):
                 y_pred_test = np.concatenate((y_pred_test, outputs))
                 y_true =np.concatenate((y_true, label))
 
-    # 生成分类报告
-    # classification = classification_report(y_test, y_pred_test, digits=4)
-    # index_acc = classification.find('weighted avg')
-    # accuracy = classification[index_acc+17:index_acc+23]
+    # generate classifcation report
     if findMax:
         accuracy, specificity, sensitivity = predict_report(y_true, y_pred_test, logger)
     else:
@@ -292,7 +286,7 @@ def padded_img_predict(X, Y, windowSize, model, net, device, logger, batch_size,
         else:
             output = np.concatenate((output,prediction))
     if prob:
-        return output.reshape((Y.shape[0],Y.shape[1],16))
+        return output.reshape((Y.shape[0],Y.shape[1],4))
     else:
         return output.reshape((Y.shape[0],Y.shape[1]))
 
@@ -317,7 +311,7 @@ def train(net, logger, device, train_loader, test_loader, lr = 0.001, num_epoch=
     # optimizer = torch.optim.SGD(net.parameters(), lr, momentum)
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, lr_steps, gamma)
    
-    # 开始训练
+    # Start training
     total_loss = 0
     for epoch in range(num_epoch):
         net.train()  # 将模型设置为训练模式

@@ -45,19 +45,19 @@ logger.info("Done reading data")
 patch_size = X_train.shape[1]
 pca_components = X_train.shape[3]
 # -------------------------------------------Processing Data -----------------------------------------
-# 改变 Xtrain, Xtest 的形状，以符合 keras 的要求
+# reshape into batch_size x width x height x pca_components (bands) x 1
 Xtrain = X_train.reshape(-1, patch_size, patch_size, pca_components, 1)
 Xtest  = X_test.reshape(-1, patch_size, patch_size, pca_components, 1)
 logger.info('before transpose: Xtrain shape: %s', Xtrain.shape) 
 logger.info('before transpose: Xtest  shape: %s', Xtest.shape) 
 
-# 为了适应 pytorch 结构，数据要做 transpose
+# Tranpose into batch_size x 1 x pca_components (bands) x width x height
 Xtrain = Xtrain.transpose(0, 4, 3, 1, 2)
 Xtest  = Xtest.transpose(0, 4, 3, 1, 2)
 logger.info('after transpose: Xtrain shape: %s', Xtrain.shape) 
 logger.info('after transpose: Xtest  shape: %s', Xtest.shape) 
 
-# 创建 trainloader 和 testloader
+# Create Dataset and DataLoader
 trainset = TrainDS(Xtrain, y_train)
 testset  = TestDS(Xtest,y_test)
 train_loader = torch.utils.data.DataLoader(dataset=trainset, batch_size=256, shuffle=True,num_workers=0)
@@ -67,11 +67,11 @@ logger.info("Dataset already in data loader")
 
 
 # -------------------------------------------Hybrid Net-----------------------------------------
-# 网络放到GPU上
+#  Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-# H_BN_A
+# Hybrid_BN_A
 if (configs['train_models']['Hybrid_BN_A']):
     logger.info("Start training hybrid net with BN and attention")
     print("Start training hybrid net with BN and attention")
@@ -113,7 +113,7 @@ if (configs['train_models']['RF'] or configs['train_models']['RBF_SVM']):
 if(configs['train_models']['RF']):
     n_estimators = configs['params']['RF']['n_estimators']
     max_depth = configs['params']['RF']['max_depth']
-    # 查看是否适用GPU版本 cupy与cuml
+    # Check if cuml and cupy available
     logger.info("Start training Random Forest Classifier")
     print("Start training RF")
     model = None
@@ -125,9 +125,7 @@ if(configs['train_models']['RF']):
         model.fit(RF_X_train.astype(np.float32), y_train)
     else:
         from sklearn.ensemble import RandomForestClassifier
-        # model = RandomForestClassifier(n_estimators=n_estimators, max_depth=10, random_state=42)  # 可根据需要调整参数
-        # model.fit(RF_X_train, y_train)
-        model = RandomForestClassifier(n_estimators=n_estimators, max_depth=10, random_state=42)  # 可根据需要调整参数
+        model = RandomForestClassifier(n_estimators=n_estimators, max_depth=10, random_state=42)  # Adjust parameters as needed
         model.fit(RF_X_train, y_train)
     logger.info("Done training")
     print("Done training")
@@ -147,9 +145,9 @@ if(configs['train_models']['RBF_SVM']):
         cp.cuda.Device(1).use()
     else:
         from sklearn.svm import SVC
-    svm_rbf = SVC(kernel = 'rbf')    #可以换成 kernel='rbf'
+    svm_rbf = SVC(kernel = 'rbf')    # Allow to switch to other kernels such as 'linear', 'poly', 'sigmoid'
 
-    # 使用训练数据拟合（训练）支持向量机模型
+    # Train SVM
     print("Start training RBF SVM")
     logger.info("Start training RBF SVM")
     svm_rbf.fit(RF_X_train, y_train)
@@ -157,7 +155,7 @@ if(configs['train_models']['RBF_SVM']):
     logger.info("Done training RBF SVM")
     joblib.dump(svm_rbf, parameter_dir + "/RBF_SVM.joblib")
     print("dump finished")
-    # 使用训练好的模型进行预测
+    # Predict SVM
     SVM_rbf_y_pred = svm_rbf.predict(RF_X_test)
     print("start predicting")
     accuracy_SVM_rbf, specificity_SVM_rbf, sensitivity_SVM_rbf = predict_report(y_test, SVM_rbf_y_pred, logger)

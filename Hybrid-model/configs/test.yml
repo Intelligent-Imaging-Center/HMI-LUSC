@@ -1,7 +1,7 @@
-parameter_dir: ../../Training7/Result/Params/lin1-10-train
-input_dir: ../../Training7/DataSource/lin1-10/x-sg-snv/data
-label_dir: ../../Training7/DataSource/lin1-10/x-sg-snv/label
-prediction_dir: ../../Training7/Result/GeneratedProb/lin1-10-train
+parameter_dir: ../Experiment1/network_parameters
+input_dir: ../processed_dataset/datacubes
+label_dir: ../processed_dataset/cell_labels
+prediction_dir: ../Experiment1/outputProb
 pca_components: 30
 patch_size: 25
 batch_size: 2048
@@ -15,11 +15,11 @@ test_models:
   CNN2D:
     param: cnn_2d.pth
     net: 1
-    test: 1
+    test: 0
   CNN3D:
     param: cnn_3d.pth
     net: 1
-    test: 1
+    test: 0
   RF:
     param: RF.joblib
     net: 0
@@ -27,6 +27,6 @@ test_models:
   RBF_SVM:
     param: RBF_SVM.joblib
     net: 0
-    test: 0
+    test: 1
 
 

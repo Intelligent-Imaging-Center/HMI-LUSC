@@ -89,6 +89,7 @@ for n in range(0, N):
             model = models[model_name]
             # Make prediction
             if (model_name == 'RBF_SVM'):
+                print("Using SVM to predict")
                 prediction_img_red = padded_img_predict(SVM_padded_data, label, SVM_patch_size, model, 
                                                    configs['test_models'][model_name]['net'],
                                                     device, logger, batch_size,prob=0)
