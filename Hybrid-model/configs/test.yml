@@ -19,7 +19,7 @@ test_models:
   CNN3D:
     param: cnn_3d.pth
     net: 1
-    test: 0
+    test: 1
   RF:
     param: RF.joblib
     net: 0
@@ -27,6 +27,6 @@ test_models:
   RBF_SVM:
     param: RBF_SVM.joblib
     net: 0
-    test: 1
+    test: 0
 
 

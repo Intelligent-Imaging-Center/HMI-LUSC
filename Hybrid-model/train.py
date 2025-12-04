@@ -142,7 +142,7 @@ if(configs['train_models']['RBF_SVM']):
     if(configs['cupy']):
         from cuml.svm import SVC
         import cupy as cp
-        cp.cuda.Device(1).use()
+        cp.cuda.Device(0).use()
     else:
         from sklearn.svm import SVC
     svm_rbf = SVC(kernel = 'rbf')    # Allow to switch to other kernels such as 'linear', 'poly', 'sigmoid'

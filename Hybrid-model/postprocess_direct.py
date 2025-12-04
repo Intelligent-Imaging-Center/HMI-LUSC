@@ -41,19 +41,19 @@ def read_process_tif_img(file):
     return process_tif_img(read_tif_img(file))
 
 
-source_dir = "../../Training7/Result/GeneratedProb/1-8/RBF_SVM/output"
-target_dir = "../../Training7/Result/GeneratedLabel/1-8/RBF_SVM"
+source_dir = "D:/Experiment/test_output/CNN3D/output"
+# source_dir = "../Experiment1/outputProb/CNN3D/output"
+target_dir = "../Experiment1/outputLabel/CNN3D"
 
-#source_dir = "D:/Training7/GeneratedProb/lin1-10/Hybrid_BN_A/output"
-#target_dir = "D:/Training7/PostProcess/lin1-10"
 polished_dir = target_dir+"/polished_output"
 noisy_dir = target_dir+"/noisy_output"
 each_type_dir = target_dir+"/each_type"
 soft_prob_thresh = 0.5
 connected_thresh = 50
 connectivityParam = 8
-net = 0
+net = 1
 
+os.makedirs(target_dir, exist_ok=True)
 class_name = ["non-cell","non-ill-cell","ill-cell","background"]
 if not(os.path.exists(target_dir)):
     os.mkdir(target_dir)

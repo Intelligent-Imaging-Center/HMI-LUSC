@@ -16,6 +16,7 @@ from dataset import *
 from models.HybridSN import *
 import tqdm
 from numpy.lib.stride_tricks import sliding_window_view
+import torch
 
 # -------------------------------------Read image and model--------------------------------------------
 def generate_file_list(dir, end):
@@ -246,21 +247,13 @@ def toNetPatch(patch):
     patch  = patch.reshape(-1, patch_size, patch_size, pca_components, 1)
     return patch.transpose(0, 4, 3, 1, 2)
 
-# Should start from preprocessed data (patch, Y)
+# Optimized patch_predict (No DataLoader overhead)
 def patch_predict(patch, Y, margin, model, net, device, logger, batch_size, prob=1):
-    """
-    Optimized patch_predict:
-    1. Removes redundant DataLoader/Dataset instantiation (major overhead).
-    2. Removes useless metric calculations (accuracy/confusion matrix) during pure inference.
-    3. Uses direct Tensor operations for PyTorch models.
-    """
     if net:
         # Preprocess: (Batch, H, W, Bands) -> (Batch, 1, Bands, H, W)
-        # toNetPatch is the existing helper in utils.py
         net_input = toNetPatch(patch)
         
         # Convert directly to Tensor and move to GPU
-        # Avoids wrapping in a Dataset/DataLoader since 'patch' is already a batch
         inputs = torch.from_numpy(net_input).float().to(device)
         
         model.eval()
@@ -268,10 +261,8 @@ def patch_predict(patch, Y, margin, model, net, device, logger, batch_size, prob
             outputs = model(inputs)
             
             if prob:
-                # Return raw probabilities/logits
                 return outputs.detach().cpu().numpy()
             else:
-                # Return class indices
                 return np.argmax(outputs.detach().cpu().numpy(), axis=1)
     else:
         # Machine Learning Models (SVM/RF)
@@ -283,51 +274,56 @@ def patch_predict(patch, Y, margin, model, net, device, logger, batch_size, prob
         else:
             return model.predict(flat_patch)
 
-# input
-# X: h x w x b (already padded)
-# Y: (hxw)
+# Memory-Safe Row-by-Row Prediction
 def padded_img_predict(X, Y, windowSize, model, net, device, logger, batch_size, prob=1):
     margin = (windowSize - 1) // 2
     logger.info("margin is %s", str(margin))
     
-    # Use sliding_window_view for ultra-fast vectorization (eliminates the loop)
-    # X has shape (H_padded, W_padded, Bands). 
-    # We slide over spatial dims (0, 1) with window (windowSize, windowSize).
-    # Output of sliding_window_view: (H, W, Bands, win_h, win_w)
+    # 1. Create a View of the patches (No memory allocation yet)
+    # X has shape (H_padded, W_padded, Bands)
+    # sliding_window_view output: (H, W, Bands, win_h, win_w)
     patches_view = sliding_window_view(X, (windowSize, windowSize), axis=(0, 1))
     
-    # We need shape: (H*W, win_h, win_w, Bands)
-    # Current: (rows, cols, bands, win_h, win_w) -> transpose to (rows, cols, win_h, win_w, bands)
+    # Transpose to (H, W, win_h, win_w, Bands)
     patches_view = patches_view.transpose(0, 1, 3, 4, 2)
     
-    # Flatten spatial dims to make a giant batch of patches
-    # Shape: (Total_Pixels, win_h, win_w, Bands)
-    flat_patches = patches_view.reshape(-1, windowSize, windowSize, X.shape[2])
+    height, width, _, _, _ = patches_view.shape
     
-    num_samples = flat_patches.shape[0]
-    predictions_list = []
-    
-    logger.info("Total patches to predict: %d", num_samples)
-    
-    # Process in batches to avoid OOM, but using vectorized slices
-    for i in tqdm.tqdm(range(0, num_samples, batch_size)):
-        batch_patch = flat_patches[i : i + batch_size]
-        
-        # Create dummy labels for batch (TestDS requires it, but we don't use accuracy here)
-        dummy_Y = np.zeros(batch_patch.shape[0])
-        
-        # Ensure memory is contiguous for efficient processing (especially for SVM/Cupy)
-        batch_patch = np.ascontiguousarray(batch_patch)
-        
-        prediction = patch_predict(batch_patch, dummy_Y, margin, model, net, device, logger, batch_size, prob=prob)
-        predictions_list.append(prediction)
-        
-    output = np.concatenate(predictions_list, axis=0)
-
+    # Prepare output container
     if prob:
-        return output.reshape((Y.shape[0], Y.shape[1], 4)) # Here 4 corresponding to our 0123 four classes
+        output = np.zeros((height, width, 4), dtype=np.float32)
     else:
-        return output.reshape((Y.shape[0], Y.shape[1]))
+        output = np.zeros((height, width), dtype=np.uint8)
+        
+    logger.info("Starting row-by-row prediction to save memory...")
+    
+    # 2. Iterate Row by Row
+    # This ensures we only materialize (W * PatchSize) memory at a time (~20MB)
+    for r in tqdm.tqdm(range(height)):
+        # Extract one row of patches: Shape (Width, win_h, win_w, Bands)
+        # This forces a copy of only one row's data
+        row_patches = np.array(patches_view[r]) 
+        
+        # 3. Process the row in chunks (batches) to respect batch_size
+        row_predictions = []
+        num_patches_in_row = row_patches.shape[0]
+        
+        for i in range(0, num_patches_in_row, batch_size):
+            batch_patch = row_patches[i : i + batch_size]
+            
+            # Helper arguments (Y is dummy here)
+            dummy_Y = np.zeros(batch_patch.shape[0])
+            
+            # Predict
+            pred = patch_predict(batch_patch, dummy_Y, margin, model, net, device, logger, batch_size, prob=prob)
+            row_predictions.append(pred)
+            
+        # Concatenate row results
+        if len(row_predictions) > 0:
+            full_row_pred = np.concatenate(row_predictions, axis=0)
+            output[r] = full_row_pred
+
+    return output
 
 def train(net, logger, device, train_loader, test_loader, lr = 0.001, num_epoch=30, lr_steps=[20,40], gamma=0.1):
     device_ids = [i for i in range(torch.cuda.device_count())]
