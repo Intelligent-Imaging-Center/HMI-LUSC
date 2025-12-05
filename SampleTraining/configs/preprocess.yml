@@ -1,6 +1,6 @@
 data: ../processed_dataset/datacubes
 label: ../processed_dataset/cell_labels
-output: ../Experiment1/network_input
+output: ../Experiment/network_input
 test_ratio: 0.01
 patch_size: 25
 pca_components: 30

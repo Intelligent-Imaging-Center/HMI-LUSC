@@ -72,7 +72,7 @@ logger.info("Y shape before %s", Y.shape)
 patch_label = Y
 logger.info("Y shape after %s", patch_label.shape)
 
-# Obtain train test split
+# Obtain train test split, however it is 
 X_train, X_test, y_train, y_test = splitTrainTestSet(patch_data, patch_label, test_ratio)
 logger.info("Train size %s", X_train.shape[0])
 logger.info("Test size %s", X_test.shape[0])

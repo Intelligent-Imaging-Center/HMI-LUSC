@@ -1,5 +1,5 @@
-input: ../Experiment1/network_input
-parameter_dir: ../Experiment1/network_parameters
+input: ../Experiment/network_input
+parameter_dir: ../Experiment/network_parameters
 cupy: 0
 params:
   Hybrid:
