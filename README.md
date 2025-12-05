@@ -1,22 +1,47 @@
 # HMI-LUSC
 
-HMI\_LUSC is the first publicly available hyperspectral imaging(HMI) dataset for lung squamous cell carcinoma (LUSC). This repo contain label generation and training code for paper \[].
+HMI\_LUSC is the first publicly available hyperspectral imaging(HMI) dataset for lung squamous cell carcinoma (LUSC), which contain 62 hyperspectral images from 10 patients, with spatial resolution of 3088 x 2064 pixels and spectral resolution of 450-750 across 61 bands. The main purpose of this dataset is to facilitate hyperspectral diagnosis research in microscopy and specifically lung cancers. 
 
-Dataset can be found in https://doi.org/10.6084/m9.figshare.30188080.v1.
+Dataset can be found in https://doi.org/10.6084/m9.figshare.30188080.v1, together with more detailed dataset structure and description.
+
+![Dataset Visualization](./images/fig6.jpg)
 
 # Environment Requirement
-You can use requirement.txt to install all required packages
+Python, PyTorch matplot, cv2, sklearn and related libraries. All libraries should be easily installed by pip3. You can use requirement.txt to install all required packages
 ```python
 pip install -r requirements.txt
 ```
 
-# 1. Prerequiste
-Python, PyTorch and related libraries. All libraries should be easily installed by pip3.
+# Project Structure
+This repository contains 3 components, DataPreparation, SampleTraining and CustomLabelGeneration.
 
-# 2. Preprocessing
-The dataset downloaded contain 10 patients, where each patients have several ROI regions indicated by LUSC_ROI_i. The ROI subfolder contain raw hyperspectral images stored in hdr and dat pair format for ENVI software reading, two labels files in png corresponding to coarse and cell-level annotation, and an RGB file for the pesudo-RGB image.
+In the DataPreparation folder, a single python file named preprocess.py can read files from the original dataset, redistribute them into folder formats easier for machine learning pipeline, and performs denoising, smoothing and normalizations for datacubes.
 
-You can run "preprocess/preprocess.py" file to convert the raw dataset folder into a preprocessed dataset which is more suitable for deep learning, such that hyperspectral images, labels and rgb images are in separate folders, and hyperspectral images would receive spectral smoothing, stretching and normalization into [0,1] range. The configurations needed to adjust are self-explanary with comments, and for this project's purpose you only need to adjust the DATA_SOURCE_FOLDER to the dataset path and OUTPUT_FOLDER to your designated place.
+In the SampleTraining folder, we have provided a simple deep learning usage examples for this dataset, where segmentation based on patch classification is used to diagnose tumors. Although models are simple and the performance only achieve basis satifaction, they can be used as comparison benchmark for future.
+
+In the CustomLabelGeneration folder, users can follow the pipeline we have used to convert 2 types (tumor/non-tumor) labels provided by pathologists to 4 types (non-cell, non-tumor cells, tumor cells and background) labels. To do it, a Kmean classifications is done, then users can use our custom label preparation GUI to select cell regions, and use label_generator.py to create new labels. 
+
+# 2. DataPreparation
+You can run "preprocess/preprocess.py" file to convert the raw dataset folder into a preprocessed dataset which is more suitable for deep learning, such that hyperspectral images, labels and rgb images are in separate folders, and hyperspectral images would receive spectral smoothing, stretching and normalization into [0,1] range.
+
+There are folders parameters you must adjust. 
+- DATA_SOURCE_FOLDER, which should be the Root folder containing P1, P2 you downloaded from the website
+- OUTPUT_FOLDER, default to "processed_dataset", which is the output root folder ready for deep learning pipeline
+
+There are hyperspectral cubes preprocess parameters you can adjust.
+PERCENT_LINEAR_VALUE = 0  # Percentile for linear stretch (e.g., 2 for 2%)
+PERBAND = 0               # 1: Process each band independently; 0: Process 3D cube as a whole.
+SNV_USED = 1              # 1: Apply Standard Normal Variate; 0: Off
+OPTLIN = 1                # 1: Apply Optimized Linear Stretch; 0: Off (Uses standard percent linear)
+
+Simple go to the subfolder and run the program.
+```python
+cd DataPreparation
+python preprocess.py
+```
+
+
+ The configurations needed to adjust are self-explanary with comments, and for this project's purpose you only need to adjust the DATA_SOURCE_FOLDER to the dataset path and OUTPUT_FOLDER to your designated place.
 
 The output folder would contain the following subfolders:
 - cell_labels, cell-level labels, where 0,1,2,3 are corresponding to non-cell(black), nonill-cell(red), ill cell(green) and background(blue) region. You can consider it as instance segmantation for cell.
@@ -73,6 +98,16 @@ There are 5 models to choose from, where the first three CNN models are defined 
 Once the test.py finishes, the probability npy files are generated and we will use /Hybrid-model/postprocess.py and postprocess\_direct.py to obtain the full prediction labels. The main difference between two files is that postprocess\_direct.py will predict each pixel by its highest probability type, where postprocess.py would additionally consider adjacent prediction types and use a voting strategy to achieve instance segmentation.
 
 # Contact
+If the dataset can no longer be accessed, codes cannot be run or other things raise your concern, please raise Issues or contact hhuang2@stu.xidian.edu.cn (available before May 2028). We may simplify and update codes in future.
 
-If there are other things unclear or code could be not run, please raise Issues or contact hhuang2@stu.xidian.edu.cn. We may simplify and update codes in future.
+# Citation 
+If you use HMI-LUSC in your research, please cite the paper (details updated in future since the paper is under review).
 
+```bibtex
+@article{yan2025LUSC,
+title = {},
+author = {Zhiliang Yan, Haosong Huang, Yunfeng Nie},
+journal={},
+year={2026}
+}
+```

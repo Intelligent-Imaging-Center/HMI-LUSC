@@ -13,11 +13,11 @@ from tqdm import tqdm
 
 # Paths
 DATA_SOURCE_FOLDER = r"dataset"  # Root folder containing P1, P2...
-OUTPUT_FOLDER = r"processed_dataset"
+OUTPUT_FOLDER = r"processed_dataset" # Output root folder ready for deep learning pipeline
 
 # Preprocessing Flags
 PERCENT_LINEAR_VALUE = 0  # Percentile for linear stretch (e.g., 2 for 2%)
-PERBAND = 0               # 1: Process each band independently; 0: Process 3D cube
+PERBAND = 0               # 1: Process each band independently; 0: Process 3D cube as a whole.
 SNV_USED = 1              # 1: Apply Standard Normal Variate; 0: Off
 OPTLIN = 1                # 1: Apply Optimized Linear Stretch; 0: Off (Uses standard percent linear)
 
