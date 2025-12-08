@@ -226,7 +226,6 @@ def main():
                 spectral_cube = savgol_filter(spectral_cube, 11, 2, axis=2)
 
                 # 4. Preprocessing (SNV / Stretching)
-                # Note: Results are now Float 0.0 - 1.0
                 if PERBAND == 1:
                     for i in range(d):
                         if OPTLIN:

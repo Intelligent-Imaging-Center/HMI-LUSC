@@ -32,7 +32,7 @@ def applyPCA(X, numComponents):
     newX = np.reshape(newX, (X.shape[0], X.shape[1], numComponents))
     return newX
 
-# Change HDR file into an image array with 69 bands 
+# Change HDR file into an image array with 61 bands 
 def read_hdr_file(file):
     return np.array(scipy.signal.savgol_filter(open_image(file).load(),5,2))
 
