@@ -2,6 +2,7 @@ from utils import *
 import yaml
 import logging
 import tqdm
+import os
 # ------------------------------------------Logging Function-----------------------------------------
 if not(os.path.exists("logs")):
     os.mkdir("logs")
@@ -22,6 +23,7 @@ data_dir = configs["data"]
 label_dir = configs["label"]
 # Output folder to store (patch, label) pair
 output_dir = configs["output"]
+os.makedirs(output_dir, exist_ok=True)
 # Ratio of test set size to whole dataset
 test_ratio = configs["test_ratio"]
 # Size of patches around one pixel and must be an ood number

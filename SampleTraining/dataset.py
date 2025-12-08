@@ -20,7 +20,6 @@ class TestDS(torch.utils.data.Dataset):
     def __getitem__(self, index):
         return self.x_data[index], self.y_data[index]
     def __len__(self): 
-        # 返回文件数据的数目
         return self.len
     
 """ Index tuple dataset"""

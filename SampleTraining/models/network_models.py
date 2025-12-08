@@ -123,7 +123,7 @@ class CNN2D(nn.Module):
         x = self.sa(x) * x
 
         x = self.conv2d_features(x)
-        x = x.view(x.size()[0],-1)
+        x = x.reshape(x.size()[0],-1)
         x = self.classifier(x)
         return x
 

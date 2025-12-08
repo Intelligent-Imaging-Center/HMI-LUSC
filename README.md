@@ -44,15 +44,15 @@ pip install -r requirements.txt
 
 This repository is organized into three main components:
 
-1. **DataPreparation/**: Scripts for flat-field calibration, spectral smoothing, and normalization.  
-2. **CustomLabelGeneration/**: A semi-automated workflow (K-Means \+ GUI) to refine coarse annotations into pixel-wise cell-level labels.  
-3. **SampleTraining/**: Implementation of Machine Learning (RF, SVM) and Deep Learning (CNN, HybridSN) models for tumor segmentation.
+1. **DataPreparation/**: Scripts for flat-field calibration, spectral smoothing, and normalization.
+2. **CustomLabelGeneration/**: A semi-automated workflow (K-Means + GUI) to refine coarse annotations into pixel-wise cell-level labels.
+3. **SampleTraining/**: Implementation of Machine Learning (RF, SVM) and Deep Learning (CNN2D, CNN3D, HybridSN) models for tumor segmentation. Pretrained models are provided except for the SVM (cuml version), which exceeds the 100MB file size supported on GitHub. HybridSN is optional as a substitute for advanced models.
 
 ## **🚀 Usage Guide**
 
 ### 1. Data Preparation
 
-Convert raw HSI data into deep-learning-ready formats. This step performs flat-field calibration (Equation 1 in the paper), spectral smoothing, and normalization to [0,1]. Users can explore various preprocess configurations and see the result via ENVI software. Default values are selected on experiments basis.
+Convert raw HSI data into deep-learning-ready formats. This step performs flat-field calibration (Equation 1 in the paper), spectral smoothing, and normalization. Users can explore various preprocess configurations and see the result via ENVI software. Default values are selected on experiments basis.
 
 * **Script:** DataPreparation/preprocess.py  
 * **Key Parameters:**  
@@ -72,7 +72,7 @@ python preprocess.py
 **Output:** 
 The output folder would contain the following subfolders:
 - cell_labels, cell-level labels, where 0,1,2,3 are corresponding to non-cell(black), nonill-cell(red), ill cell(green) and background(blue) region. You can consider it as instance segmantation for cell.
-- datacubes, preprocessed hyperspectral datacubes in [0,1] range.
+- datacubes, preprocessed hyperspectral datacubes.
 - labels, coarse labels originally provided by pathologists, where 0 indicating non-ill and 1 indicating ill.
 - rgbs, mainly used for visual check and neccessary for cell-level label generation interface we designed
 

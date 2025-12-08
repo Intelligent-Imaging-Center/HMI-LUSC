@@ -21,7 +21,7 @@ GT_LABEL_DIR = "../processed_dataset/cell_labels"
 # 3. Output Destination: Where the processed files will be saved
 #    Structure will be: D:/Experiment/test_output/output/CNN3D/*.{npy, tif}
 FINAL_OUTPUT_ROOT = "../Experiment1/final_output"
-
+os.makedirs(FINAL_OUTPUT_ROOT, exist_ok=True)
 # 4. Report File: CSV file path
 REPORT_FILE = os.path.join(FINAL_OUTPUT_ROOT, "performance_report_integrated.csv")
 
