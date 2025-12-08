@@ -349,13 +349,11 @@ def train(net, logger, device, train_loader, test_loader, lr = 0.001, num_epoch=
     # Start training
     total_loss = 0
     for epoch in range(num_epoch):
-        net.train()  # 将模型设置为训练模式
+        net.train()
         for i, (inputs, labels) in enumerate(train_loader):
             inputs = inputs.to(device)
             labels = labels.to(device)
-            # 优化器梯度归零
             optimizer.zero_grad()
-            # 正向传播 +　反向传播 + 优化 
             outputs = net(inputs.float())
             loss = criterion(outputs, labels)
             loss.backward()
