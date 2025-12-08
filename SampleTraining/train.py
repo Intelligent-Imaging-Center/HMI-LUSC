@@ -121,7 +121,7 @@ if(configs['train_models']['RF']):
         # from cuml.dask.ensemble import RandomForestClassifier
         from cuml.ensemble import RandomForestClassifier
         import cupy as cp
-        model = RandomForestClassifier()  # 可根据需要调整参数
+        model = RandomForestClassifier() 
         model.fit(RF_X_train.astype(np.float32), y_train)
     else:
         from sklearn.ensemble import RandomForestClassifier

@@ -193,17 +193,5 @@ Use prediction.py to generate final segmentation maps from the probability outpu
 - FINAL_OUTPUT_ROOT: Output directory where final colored segmentation images (.tif), label arrays (.npy), and the performance report will be saved.
 - MODELS_TO_PROCESS: A list of model names (strings) to process, such as CNN3D and CNN2D. These must match the folder names created in TEST_OUTPUT_ROOT.
 
-## **📄 Citation**
-
-If you use **HMI-LUSC** or this code in your research, please cite our paper:
-
-@article{yan2025HMI,  
-  title \= {HMI-LUSC: A Histological Hyperspectral Imaging Dataset for Lung Squamous Cell Carcinoma},  
-  author \= {Zhiliang Yan and Haosong Huang and Ye Guo and Jintao Shi and Rongmei Geng and Jingang Zhang and Yu Chen and Yunfeng Nie},  
-  journal \= {Scientific Data},  
-  year \= {2025},  
-  note \= {Under Review}  
-}  
-
 ## Contact 
 If the dataset can no longer be accessed, codes cannot be run or other things raise your concern, please raise Issues or contact hhuang2@stu.xidian.edu.cn (available before May 2028). We may simplify and update codes in future.
