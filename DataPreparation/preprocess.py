@@ -199,7 +199,7 @@ def main():
                 data = img_obj.load() 
                 h, w, d = data.shape
                 spectral_cube = data.astype("float64")
-                print(f"\n[DEBUG] {unique_name} Raw Input Range: Min={np.min(spectral_cube):.2f}, Max={np.max(spectral_cube):.2f}")
+                print(f"\n[DEBUG] {unique_name}")
 
                 # 2. Reflectance Correction (Raw -> Reflectance)
                 # Formula: (Raw - Dark) / (White - Dark)
@@ -244,9 +244,7 @@ def main():
                         spectral_cube = percent_linear_float(spectral_cube, PERCENT_LINEAR_VALUE)
                     else:
                         spectral_cube = percent_linear_float(spectral_cube, PERCENT_LINEAR_VALUE)
-                
-                print(f"[DEBUG] {unique_name} Final Output Range: Min={np.min(spectral_cube):.4f}, Max={np.max(spectral_cube):.4f}")
-
+                        
                 # 5. Save Datacube
                 output_envi_path = os.path.join(path_map["datacubes"], unique_name)
                 driver = gdal.GetDriverByName("ENVI")
