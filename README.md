@@ -34,9 +34,11 @@ The project requires Python 3.8+ and the following key libraries:
 * **GUI Tools:** PySide6 (Required for the Label Refinement tool)  
 * **Optional (GPU ML):** cuml, cupy (For GPU-accelerated Random Forest/SVM). The installation could be difficult and we suggest using conda to create a new environment for it by following [RAPIDS INSTALLATION](https://docs.rapids.ai/install/). The lack of cuml will cause SVM unable to run, therefore we disable SVM by default.
 
-Assume you have pytorch and python available and wish to use pip for automatic package installation based on your current environments. Install dependencies via pip:
+Assume you have pytorch and python available and wish to use pip for automatic package installation based on your current environments. Install dependencies via pip. Notice that GDAL library is more difficult to install via pip, thus we use conda to install it.
 
 ```python
+conda install -c conda-forge libstdcxx-ng
+conda install -c conda-forge gdal
 pip install -r requirements.txt
 ```
 
@@ -94,7 +96,7 @@ python CustomLabelGeneration/Kmean-classification.py
 ```
 #### 2.2: Manual Refinement (GUI)
 
-Run preprocess/QtLabel/widget.py to use the manual label selection user interface. Instructions are already in the interface. There are several suggestions for easier usage.
+Run CustomLabelGeneration/QtLabel/widget.py to use the manual label selection user interface. Instructions are already in the interface. There are several suggestions for easier usage.
 
 - The input folder must contain hdr and dat files for hyperspectral images, and the classifications labels created earlier.
 - We select cells and background separately. When you output the file, please put them into a separate output folder and name accordingly.
