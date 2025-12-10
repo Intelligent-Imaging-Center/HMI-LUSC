@@ -13,9 +13,9 @@ params:
     n_estimators: 50
     max_depth: 10
 train_models:
-  Hybrid_BN_A: 1
-  RF: 0
+  Hybrid_BN_A: 0
+  RF: 1
   RBF_SVM: 0
-  CNN2D: 0
-  CNN3D: 0
+  CNN2D: 1
+  CNN3D: 1
 
