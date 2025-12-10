@@ -12,7 +12,7 @@ import imageio.v2 as iio
 # ======================= CONFIGURATION =======================
 # 1. Input Directory: Root directory containing subfolders for each model
 #    (Structure assumed: D:/Experiment/test_output/CNN3D/output/*.npy)
-TEST_OUTPUT_ROOT = "D:/Experiment/test_output"
+TEST_OUTPUT_ROOT = "../Experiment/outputProb"
 
 # 2. Ground Truth Directory: For reshaping and metrics
 #    (Supports .npy or .png/.tif labels)
